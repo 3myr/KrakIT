@@ -1,11 +1,9 @@
 package krakit.vues;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import krakit.controllers.Controller;
@@ -79,6 +77,12 @@ public class ControllerDefaultTab extends Controller implements Initializable {
                 // Style
                 nodeContainer.setStyle("-fx-text-alignment: center; -fx-alignment: center");
                 repoName.setStyle("-fx-text-fill: blue; -fx-border-color: transparent;-fx-border-width: 0; -fx-background-radius: 0; -fx-background-color: transparent;");
+
+                // Evenement
+                repoName.setOnAction(event->
+                {
+                    this.krakit.currentTab(r);
+                });
             }
             // Sinon n'ajoute pas de projet
         }
@@ -113,8 +117,15 @@ public class ControllerDefaultTab extends Controller implements Initializable {
 
                 // Style
                 nodeContainer.setStyle("-fx-text-alignment: center; -fx-alignment: center");
-                repoName.setStyle("-fx-text-fill: blue;    -fx-border-color: transparent;-fx-border-width: 0; -fx-background-radius: 0;  -fx-background-color: transparent; ");
+                repoName.setStyle("-fx-text-fill: blue; -fx-border-color: transparent;-fx-border-width: 0; -fx-background-radius: 0; -fx-background-color: transparent;");
+
+                // Evenement
+                repoName.setOnAction(event->
+                {
+                    this.krakit.currentTab(r);
+                });
             }
+            // Sinon n'ajoute pas de projet
         }
     }
 

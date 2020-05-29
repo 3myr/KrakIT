@@ -1,19 +1,12 @@
 package krakit.controllers;
-
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import krakit.Main;
 import krakit.modeles.Krakit;
 import krakit.modeles.Repo;
@@ -32,6 +25,8 @@ public class ControllerTabMenu extends Controller implements Initializable
     private TabPane tabPane;
     @FXML
     private Tab openRepo;
+    @FXML
+    private Tab addRepo;
 
     // Propriete
     private int nbTab;
@@ -73,7 +68,7 @@ public class ControllerTabMenu extends Controller implements Initializable
     public void mettreAJour()
     {
         // Ajoute des onglets
-        for(Repo r : krakit.getRepos())
+        for(Repo r : krakit.getReposInTabPane())
         {
             // Si l'onglet n'est pas présent dans la liste d'onglet présent, on le crée et le rajoute
             if(!tabs.containsKey(r))
@@ -117,23 +112,6 @@ public class ControllerTabMenu extends Controller implements Initializable
                     }
                 }
 
-                // Evenement quand l'onglet se ferme
-                tab.setOnCloseRequest(event ->
-                {
-                    // Retire l'onglet du modele et de la liste d'onglet
-                    tabs.remove(r,tab);
-                    krakit.supprimerRepo(r);
-
-                    // Selectionne l'onglet suivant ( ne surtout pas selectionné le premier onglet )
-                    tabPane.getSelectionModel().selectNext();
-
-                    // Si après suppression il ne reste qu'un onglet, rajoute un,
-                    if(tabs.size()<1)
-                    {
-                        krakit.ajouterRepo();
-                    }
-                });
-
                 // Ajoute l'onglet dans le menu d'onglet
                 tabPane.getTabs().add(tab);
                 tabPane.getSelectionModel().select(tab); // Selectionne l'onglet créé
@@ -167,18 +145,84 @@ public class ControllerTabMenu extends Controller implements Initializable
                     }
                 }
             }
+
+            // Evenement quand l'onglet se ferme
+            tabs.get(r).setOnCloseRequest(event ->
+            {
+                // Retire l'onglet du modele et de la liste d'onglet
+                tabs.remove(r,tabs.get(r));
+                krakit.supprimerRepo(r);
+
+                // Selectionne l'onglet suivant ( ne surtout pas selectionné le premier onglet )
+                tabPane.getSelectionModel().selectNext();
+
+                // Si après suppression il n'y a plus d'onglets dans la liste, en rajouter un
+                if(tabs.size()<1)
+                {
+                    krakit.ajouterRepo();
+                }
+            });
         }
 
         // Selection de l'onglet par default
         if(tabPane.getTabs().size()<3 && tabPane.getTabs().size()>1)
         {
-            tabPane.getSelectionModel().select(1);
+            tabPane.getSelectionModel().select(2);
         }
 
         // Garde un onglet ouvert quand l'utilisateur supprime tout les onglets
-        if(tabPane.getTabs().size()<2)
+        if(tabPane.getTabs().size()<3)
         {
             this.krakit.ajouterRepo();
+        }
+
+        // Deplace l'onglet pour ajouter des pages a la fin des onglets
+
+
+        // Se place sur l'onglet choisit
+        // Si l'onglet courant est dans la liste d'onglet
+        if(this.tabs.get(this.krakit.getCurrentTab())!=null)
+        {
+            this.tabPane.getSelectionModel().select(this.tabs.get(this.krakit.getCurrentTab()));
+        }
+        else // L'onglet n'est pas dans la liste d'onglet
+        {
+            // A CONTINUER ICI
+            // Ajouter l'onglet dans la liste
+            if(this.krakit.getCurrentTab()!=null)
+            {
+                Tab tab = new Tab();
+                tab.setText(this.krakit.getCurrentTab().getNom());
+
+                tabs.put(this.krakit.getCurrentTab(),tab);
+                tabPane.getTabs().add(tab);
+
+                // Evenement quand l'onglet se ferme
+                tab.setOnCloseRequest(event ->
+                {
+                    // Retire l'onglet du modele et de la liste d'onglets et reinitialise l'onglet courant
+                    for(Repo r : krakit.getRepos())
+                    {
+                        if(r.getNom().equals(tab.getText()))
+                        {
+                            tabs.remove(r,tab);
+                            krakit.supprimerRepo(r);
+                            krakit.currentTab(null);
+                        }
+                    }
+
+                    // Selectionne l'onglet suivant ( ne surtout pas selectionné le premier onglet )
+                    tabPane.getSelectionModel().selectNext();
+
+                    // Si après suppression il n'y a plus d'onglets dans la liste, en rajouter un
+                    if(tabs.size()<1)
+                    {
+                        krakit.ajouterRepo();
+                    }
+                });
+
+                this.tabPane.getSelectionModel().select(tab);
+            }
         }
 
     }
@@ -199,7 +243,7 @@ public class ControllerTabMenu extends Controller implements Initializable
         openRepo.setGraphic(imgview);
 
         // Ajoute au minimum un onglet
-        if(tabs.size()<2)
+        if(tabs.size()<1)
         {
             this.krakit.ajouterRepo();
         }
@@ -208,9 +252,16 @@ public class ControllerTabMenu extends Controller implements Initializable
         tabPane.getSelectionModel().selectedItemProperty().addListener((observableValue, tab, t1) -> {
 
             // Si le nouvel onglet selectionné est l'onglet permettant d'ouvrir un projet, se remet sur le précédent onglet et ouvre le menu pour ouvrir un projet
-            if(t1.getGraphic()!=null && t1.getGraphic().equals(imgview))
+            if((t1.getGraphic()!=null && t1.getGraphic().equals(imgview)) || (t1.getText().equals("+")) )
             {
-                System.out.println("Menu ouvrir un projet");
+                if(t1.getText()!=null && t1.getText().equals("+"))
+                {
+                    this.krakit.ajouterRepo();
+                }
+                else
+                {
+                    System.out.println("Menu ouvrir un projet");
+                }
 
                 tabPane.getSelectionModel().select(tab);
             }
