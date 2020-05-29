@@ -37,9 +37,6 @@ public class ControllerDefaultTab extends Controller implements Initializable {
     public ControllerDefaultTab(Krakit krakit)
     {
         super(krakit);
-
-        // Ajoute le controller dans le modele
-        //this.krakit.ajouterControllers(this);
     }
 
 
@@ -62,6 +59,7 @@ public class ControllerDefaultTab extends Controller implements Initializable {
 
         for(Repo r : krakit.getRepos())
         {
+            // Si le projet est un projet vide, il n'a pas de chemin
             if(r.getPath()!=null)
             {
                 HBox nodeContainer = new HBox();
@@ -81,7 +79,6 @@ public class ControllerDefaultTab extends Controller implements Initializable {
                 // Style
                 nodeContainer.setStyle("-fx-text-alignment: center; -fx-alignment: center");
                 repoName.setStyle("-fx-text-fill: blue; -fx-border-color: transparent;-fx-border-width: 0; -fx-background-radius: 0; -fx-background-color: transparent;");
-
             }
             // Sinon n'ajoute pas de projet
         }

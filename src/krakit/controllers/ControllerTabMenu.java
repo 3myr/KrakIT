@@ -82,24 +82,39 @@ public class ControllerTabMenu extends Controller implements Initializable
                 Tab tab = new Tab(r.getNom());
                 tab.setClosable(true);
 
-                // Fixe un Node associé a l'onglet
-                try
+                // Charge la page d'un onglet avec un projet vide
+                if(r.getPath()==null)
                 {
-                    ControllerDefaultTab cdt = new ControllerDefaultTab(krakit);
+                    // Fixe un Node associé a l'onglet
+                    try
+                    {
+                        ControllerDefaultTab cdt = new ControllerDefaultTab(krakit);
 
-                    // FXML loader
-                    FXMLLoader loader = new FXMLLoader();
-                    loader.setLocation(Main.class.getResource("vues/defaultTab.fxml"));
-                    loader.setControllerFactory(ic->cdt);
+                        // FXML loader
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(Main.class.getResource("vues/defaultTab.fxml"));
+                        loader.setControllerFactory(ic->cdt);
 
-                    AnchorPane anchorPane = loader.load();
-                    anchorPane.setPrefSize(500,180);
-                    anchorPane.setStyle("-fx-background-color: green");
-                    tab.setContent(anchorPane);
+                        AnchorPane anchorPane = loader.load();
+                        anchorPane.setPrefSize(500,180);
+                        anchorPane.setStyle("-fx-background-color: green");
+                        tab.setContent(anchorPane);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
-                catch (Exception e)
+                else // Charger la page pour un onglet qui possède un projet
                 {
-                    e.printStackTrace();
+                    try
+                    {
+
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                 }
 
                 // Evenement quand l'onglet se ferme
@@ -182,7 +197,6 @@ public class ControllerTabMenu extends Controller implements Initializable
         imgview.setFitWidth(15);
         imgview.setFitHeight(13);
         openRepo.setGraphic(imgview);
-
 
         // Ajoute au minimum un onglet
         if(tabs.size()<2)
