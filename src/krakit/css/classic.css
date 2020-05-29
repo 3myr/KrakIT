@@ -1,0 +1,13 @@
+.combo-box {
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+/* Permet de retirer le tab down button de la TabPane*/
+.tab-down-button {
+    -fx-padding: 0;
+}
+
+.tab-down-button .arrow {
+    -fx-padding: 0;
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<AnchorPane fx:id="root" prefWidth="800" prefHeight="560" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.controllers.ControllerKrakit">
+    <fx:include fx:id="mainMenu" prefHeight="25.0" prefWidth="${root.width}" source="mainMenu.fxml" AnchorPane.topAnchor="0.0" />
+    <fx:include fx:id="tabMenu" prefWidth="${root.width}" source="tabMenu.fxml" />
+</AnchorPane>

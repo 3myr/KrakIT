@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.vues.ControllerDefaultTab">
+   <children>
+      <VBox fx:id="fileContainer">
+         <children>
+            <Label text="KrakIT" />
+            <Button mnemonicParsing="false" text="Open a repo" />
+            <Button mnemonicParsing="false" text="Clone a repo" />
+         </children>
+      </VBox>
+      <VBox fx:id="repoContainer" AnchorPane.leftAnchor="80.0">
+         <children>
+            <Label text="Recent Repos" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
