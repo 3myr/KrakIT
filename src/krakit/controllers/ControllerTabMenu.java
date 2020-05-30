@@ -7,10 +7,12 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import krakit.Main;
+import krakit.ecouteurs.closeTab;
 import krakit.modeles.Krakit;
 import krakit.modeles.Repo;
-import krakit.vues.ControllerDefaultTab;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -29,7 +31,6 @@ public class ControllerTabMenu extends Controller implements Initializable
     private Tab addRepo;
 
     // Propriete
-    private int nbTab;
     private HashMap<Repo,Tab> tabs;
 
     // Propiété
@@ -90,10 +91,11 @@ public class ControllerTabMenu extends Controller implements Initializable
                         loader.setLocation(Main.class.getResource("vues/defaultTab.fxml"));
                         loader.setControllerFactory(ic->cdt);
 
-                        AnchorPane anchorPane = loader.load();
-                        anchorPane.setPrefSize(500,180);
-                        anchorPane.setStyle("-fx-background-color: green");
-                        tab.setContent(anchorPane);
+                        BorderPane hBox = loader.load();
+                        hBox.prefWidthProperty().bind(tabPane.widthProperty());
+                        hBox.prefHeightProperty().bind(tabPane.heightProperty());
+                        hBox.setStyle("-fx-background-color: #171717");
+                        tab.setContent(hBox);
                     }
                     catch (Exception e)
                     {
@@ -134,10 +136,11 @@ public class ControllerTabMenu extends Controller implements Initializable
                         loader.setLocation(Main.class.getResource("vues/defaultTab.fxml"));
                         loader.setControllerFactory(ic->cdt);
 
-                        AnchorPane anchorPane = loader.load();
-                        anchorPane.setPrefSize(500,180);
-                        anchorPane.setStyle("-fx-background-color: green");
-                        tabs.get(r).setContent(anchorPane);
+                        BorderPane hBox = loader.load();
+                        hBox.prefWidthProperty().bind(tabPane.widthProperty());
+                        hBox.prefHeightProperty().bind(tabPane.heightProperty());
+                        hBox.setStyle("-fx-background-color: #171717");
+                        tabs.get(r).setContent(hBox);
                     }
                     catch (Exception e)
                     {
@@ -147,21 +150,7 @@ public class ControllerTabMenu extends Controller implements Initializable
             }
 
             // Evenement quand l'onglet se ferme
-            tabs.get(r).setOnCloseRequest(event ->
-            {
-                // Retire l'onglet du modele et de la liste d'onglet
-                tabs.remove(r,tabs.get(r));
-                krakit.supprimerRepo(r);
-
-                // Selectionne l'onglet suivant ( ne surtout pas selectionné le premier onglet )
-                tabPane.getSelectionModel().selectNext();
-
-                // Si après suppression il n'y a plus d'onglets dans la liste, en rajouter un
-                if(tabs.size()<1)
-                {
-                    krakit.ajouterRepo();
-                }
-            });
+            tabs.get(r).setOnCloseRequest(new closeTab(krakit,r,tabPane,tabs));
         }
 
         // Selection de l'onglet par default
@@ -187,7 +176,6 @@ public class ControllerTabMenu extends Controller implements Initializable
         }
         else // L'onglet n'est pas dans la liste d'onglet
         {
-            // A CONTINUER ICI
             // Ajouter l'onglet dans la liste
             if(this.krakit.getCurrentTab()!=null)
             {
@@ -224,7 +212,6 @@ public class ControllerTabMenu extends Controller implements Initializable
                 this.tabPane.getSelectionModel().select(tab);
             }
         }
-
     }
 
     /**
@@ -257,13 +244,14 @@ public class ControllerTabMenu extends Controller implements Initializable
                 if(t1.getText()!=null && t1.getText().equals("+"))
                 {
                     this.krakit.ajouterRepo();
+                    tabPane.getSelectionModel().selectPrevious();
                 }
                 else
                 {
                     System.out.println("Menu ouvrir un projet");
+                    tabPane.getSelectionModel().select(tab);
                 }
 
-                tabPane.getSelectionModel().select(tab);
             }
 
         });

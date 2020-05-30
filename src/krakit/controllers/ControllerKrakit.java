@@ -21,6 +21,10 @@ public class ControllerKrakit extends Controller implements Initializable
     private HBox mainMenu;
     @FXML
     private TabPane tabMenu;
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private AnchorPane signature;
 
 
     //

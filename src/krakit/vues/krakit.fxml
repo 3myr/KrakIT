@@ -2,10 +2,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.stage.Screen?>
 
-<AnchorPane fx:id="root" prefWidth="${screen.visualBounds.width}" prefHeight="${screen.visualBounds.height}" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.controllers.ControllerKrakit">
-    <fx:define>
-        <Screen fx:factory="getPrimary" fx:id="screen"/>
-    </fx:define>
-    <fx:include fx:id="mainMenu" prefHeight="25.0" prefWidth="${screen.visualBounds.width}" source="mainMenu.fxml" AnchorPane.topAnchor="0.0" />
-    <fx:include fx:id="tabMenu" prefWidth="${screen.visualBounds.width}" prefHeight="${screen.visualBounds.height}" source="tabMenu.fxml" />
+<AnchorPane fx:id="root" prefWidth="${root.width}" prefHeight="${root.height}" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.controllers.ControllerKrakit">
+    <fx:include fx:id="mainMenu" prefHeight="25.0" prefWidth="${root.width}" source="mainMenu.fxml" AnchorPane.topAnchor="0.0" />
+    <fx:include fx:id="signature" prefWidth="${root.width}" prefHeight="20.0" source="signature.fxml" AnchorPane.bottomAnchor="0.0"/>
+    <fx:include fx:id="tabMenu" prefWidth="${root.width}" prefHeight="${(root.height)-(mainMenu.height)-(signature.height)}" source="tabMenu.fxml" />
 </AnchorPane>

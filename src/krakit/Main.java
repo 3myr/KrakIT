@@ -4,9 +4,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import krakit.controllers.ControllerKrakit;
 import krakit.controllers.ControllerMainMenu;
+import krakit.controllers.ControllerSignature;
 import krakit.controllers.ControllerTabMenu;
 import krakit.modeles.Krakit;
 
@@ -22,6 +24,7 @@ public class Main extends Application {
         ControllerKrakit ck = new ControllerKrakit(krakit);
         ControllerMainMenu cmm = new ControllerMainMenu(krakit);
         ControllerTabMenu ctm = new ControllerTabMenu(krakit);
+        ControllerSignature cs = new ControllerSignature(krakit);
 
         // Chargement du FXML
         FXMLLoader loader = new FXMLLoader();
@@ -32,6 +35,7 @@ public class Main extends Application {
             if (ic.equals(krakit.controllers.ControllerKrakit.class)) return ck;
             else if (ic.equals(krakit.controllers.ControllerMainMenu.class)) return cmm;
             else if (ic.equals(krakit.controllers.ControllerTabMenu.class)) return ctm;
+            else if (ic.equals(krakit.controllers.ControllerSignature.class)) return cs;
             return null ;
         });
 
@@ -39,7 +43,7 @@ public class Main extends Application {
         Parent root = loader.load();
 
         // Initialisation de la scene
-        Scene scene = new Scene(root, 800  , 560);
+        Scene scene = new Scene(root,1010,540);
 
         // Charge les feuilles de styles ( css )
         scene.getStylesheets().add(Main.class.getResource("css/dark.css").toURI().toString());

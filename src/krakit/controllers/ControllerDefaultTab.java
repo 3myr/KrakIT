@@ -1,15 +1,21 @@
-package krakit.vues;
+package krakit.controllers;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import krakit.controllers.Controller;
 import krakit.modeles.Krakit;
 import krakit.modeles.Repo;
 
+import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,9 +25,10 @@ public class ControllerDefaultTab extends Controller implements Initializable {
 
     // Composants graphique
     @FXML
-    private VBox fileContainer;
-    @FXML
-    private VBox repoContainer;
+    private ListView listView;
+
+    // Attribut
+    private ObservableList<HBox> repoList;
 
 
     //
@@ -35,6 +42,7 @@ public class ControllerDefaultTab extends Controller implements Initializable {
     public ControllerDefaultTab(Krakit krakit)
     {
         super(krakit);
+        repoList = FXCollections.<HBox>observableArrayList();
     }
 
 
@@ -53,39 +61,7 @@ public class ControllerDefaultTab extends Controller implements Initializable {
      */
     public void mettreAJour()
     {
-        repoContainer.getChildren().clear();
 
-        for(Repo r : krakit.getRepos())
-        {
-            // Si le projet est un projet vide, il n'a pas de chemin
-            if(r.getPath()!=null)
-            {
-                HBox nodeContainer = new HBox();
-
-                // Initialise le titre du projet
-                Button repoName = new Button(r.getNom());
-
-                // Initialise le chemin de la position du projet
-                Label label = new Label(r.getPath());
-
-                // Ajoute les deux composants dans la hbox
-                nodeContainer.getChildren().addAll(repoName,label);
-
-                // Ajoute la HBox dans le VBox
-                repoContainer.getChildren().add(nodeContainer);
-
-                // Style
-                nodeContainer.setStyle("-fx-text-alignment: center; -fx-alignment: center");
-                repoName.setStyle("-fx-text-fill: blue; -fx-border-color: transparent;-fx-border-width: 0; -fx-background-radius: 0; -fx-background-color: transparent;");
-
-                // Evenement
-                repoName.setOnAction(event->
-                {
-                    this.krakit.currentTab(r);
-                });
-            }
-            // Sinon n'ajoute pas de projet
-        }
     }
 
     /**
@@ -96,6 +72,17 @@ public class ControllerDefaultTab extends Controller implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        // ListView
+        listView.setItems(repoList);
+
+        // Empeche la selection des hbox contenant les informations propre aux projets
+        listView.getSelectionModel().selectedIndexProperty().addListener((observable, oldvalue, newValue) -> {
+            Platform.runLater(() -> {
+                listView.getSelectionModel().clearSelection();
+            });
+        });
+
+        // Affiche les projets non vide
         for(Repo r : krakit.getRepos())
         {
             // Si le projet n'est pas encore choisit par l'utilisateur, ne l'affiche pas dans les projets récents
@@ -112,12 +99,13 @@ public class ControllerDefaultTab extends Controller implements Initializable {
                 // Ajoute les deux composants dans la hbox
                 nodeContainer.getChildren().addAll(repoName,label);
 
-                // Ajoute la HBox dans le VBox
-                repoContainer.getChildren().add(nodeContainer);
+                // Ajoute la HBox dans la ListView
+                repoList.add(nodeContainer);
 
                 // Style
-                nodeContainer.setStyle("-fx-text-alignment: center; -fx-alignment: center");
-                repoName.setStyle("-fx-text-fill: blue; -fx-border-color: transparent;-fx-border-width: 0; -fx-background-radius: 0; -fx-background-color: transparent;");
+                nodeContainer.setStyle("-fx-alignment: CENTER_LEFT");
+                repoName.setStyle("-fx-text-fill: cyan; -fx-border-color: transparent;-fx-border-width: 0; -fx-background-radius: 0; -fx-background-color: transparent;");
+                label.setStyle("-fx-text-fill: #939393"); // A mettre dans le css
 
                 // Evenement
                 repoName.setOnAction(event->

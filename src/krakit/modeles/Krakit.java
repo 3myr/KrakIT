@@ -94,7 +94,7 @@ public class Krakit extends Sujet
         this.repos.add(repo);
 
         // Quand il y a plus de 8 anciens projets, supprime les anciens de la liste
-        while(this.repos.size()>8)
+        while(this.repos.size()>15)
         {
             int i=0;
             this.repos.remove(i);
