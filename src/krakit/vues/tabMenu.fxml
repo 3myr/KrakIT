@@ -5,6 +5,6 @@
 <TabPane fx:id="tabPane" tabClosingPolicy="SELECTED_TAB" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.controllers.ControllerTabMenu">
   <tabs>
     <Tab fx:id="openRepo" closable="false"/>
-    <Tab fx:id="addRepo" text="+" closable="false"/>
+    <Tab text="+" closable="false"/>
   </tabs>
 </TabPane>

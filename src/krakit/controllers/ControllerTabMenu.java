@@ -6,9 +6,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import krakit.Main;
 import krakit.ecouteurs.closeTab;
 import krakit.modeles.Krakit;
@@ -27,8 +25,6 @@ public class ControllerTabMenu extends Controller implements Initializable
     private TabPane tabPane;
     @FXML
     private Tab openRepo;
-    @FXML
-    private Tab addRepo;
 
     // Propriete
     private HashMap<Repo,Tab> tabs;
@@ -106,11 +102,19 @@ public class ControllerTabMenu extends Controller implements Initializable
                 {
                     try
                     {
+                        ControllerRepoTab crt = new ControllerRepoTab(krakit, r);
 
+                        // FXML loader
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(Main.class.getResource("vues/repoTab.fxml"));
+                        loader.setControllerFactory(ic->crt);
+
+                        BorderPane borderPane = loader.load();
+                        tab.setContent(borderPane);
                     }
                     catch (Exception e)
                     {
-
+                        e.printStackTrace();
                     }
                 }
 
