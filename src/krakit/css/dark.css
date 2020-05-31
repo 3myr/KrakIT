@@ -52,9 +52,17 @@
     -fx-font-size: 14px;
 }
 
+.noScrollBar-list-view .scroll-bar:vertical .increment-arrow,
+.noScrollBar-list-view .scroll-bar:vertical .decrement-arrow,
+.noScrollBar-list-view .scroll-bar:vertical .increment-button,
+.noScrollBar-list-view .scroll-bar:vertical .decrement-button {
+    -fx-padding:0;
+}
+
 /*      */
 
 /* Boutton */
+/*
 .button{
     -fx-background-color:#2f2f2f ;
     -fx-background-radius:0;
@@ -67,7 +75,63 @@
 .button:hover{
     -fx-background-color:#2f3561;
 }
+ */
 /*        */
+
+/* TreeView */
+.tree-view{
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+/*      */
+
+/* TableView */
+.table-view .increment-arrow,
+.table-view .decrement-arrow,
+.table-view .increment-button,
+.table-view .decrement-button {
+    -fx-padding:0;
+}
+/*          */
+
+/* SplitPane */
+
+.split-pane:horizontal > .split-pane-divider {
+    -fx-background-color: black;
+    -fx-padding: 0 0.15em 0 0.15em;
+}
+
+
+/*          */
+
+/* Button Default Tab */
+.buttonDefaultTab{
+    -fx-background-color:#2f2f2f ;
+    -fx-background-radius:0;
+    -fx-border-color:white;
+    -fx-border-width: 0.5;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+}
+.buttonDefaultTab:hover{
+    -fx-background-color:#2f3561;
+}
+/*                    */
+
+
+/* Button Repo Tab */
+.buttonRepoTab{
+    -fx-background-color:#191a18 ;
+    -fx-background-radius:0;
+    -fx-border-color: #929292;
+    -fx-border-width: 0.5;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+.buttonRepoTab:hover{
+    -fx-background-color:black;
+}
+/*                 */
 
 /*
 .tab-pane > .tab-header-area > .headers-region > .tab {

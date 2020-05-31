@@ -1,0 +1,14 @@
+Git commit command :
+
+git shortlog | grep -E '^[^ ]' => Nom contributeur + nombre de commit par ce contributeur
+git rev-list --all --count => Nombre de commit total
+git rev-list --all --pretty=format:"%an | %ar | %s" => Recupere tout les commits ( du .git ) avec : le nom du contributeur, la date du commit, la premiere ligne de commentaire du commit
+
+Git Branch command :
+
+git branch | sed 's/[^a-zA-Z]*//g' => Affiche le nom de toute les branches
+
+
+Windows :
+
+cd /D C:/Users/... => vas se positionner dans le dossier

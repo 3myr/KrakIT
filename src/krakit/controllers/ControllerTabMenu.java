@@ -115,6 +115,7 @@ public class ControllerTabMenu extends Controller implements Initializable
                     catch (Exception e)
                     {
                         e.printStackTrace();
+                        System.out.println(e);
                     }
                 }
 
@@ -186,6 +187,25 @@ public class ControllerTabMenu extends Controller implements Initializable
                 Tab tab = new Tab();
                 tab.setText(this.krakit.getCurrentTab().getNom());
 
+                // Charge le projet
+                try
+                {
+                    ControllerRepoTab crt = new ControllerRepoTab(krakit, this.krakit.getCurrentTab());
+
+                    // FXML loader
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(Main.class.getResource("vues/repoTab.fxml"));
+                    loader.setControllerFactory(ic->crt);
+
+                    BorderPane borderPane = loader.load();
+                    tab.setContent(borderPane);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+                // Ajoute l'onglet du projet dans la liste d'onglet visible
                 tabs.put(this.krakit.getCurrentTab(),tab);
                 tabPane.getTabs().add(tab);
 

@@ -6,15 +6,15 @@
 <BorderPane fx:id="defaultTab" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.controllers.ControllerDefaultTab">
    <!-- Margin en haut adaptatif -->
    <top>
-      <HBox fx:id="top" prefHeight="${defaultTab.height/10}"/>
+      <HBox fx:id="top" prefHeight="${defaultTab.height/10}" />
    </top>
    <!-- Margin a gauche adaptatif -->
    <left>
-      <HBox prefWidth="${(defaultTab.width)/5}" minWidth="${(defaultTab.width)/5}" maxWidth="${(defaultTab.width)/5}"/>
+      <HBox maxWidth="${(defaultTab.width)/5}" minWidth="${(defaultTab.width)/5}" prefWidth="${(defaultTab.width)/5}" />
    </left>
    <!-- Margin a droite adaptatif -->
    <right>
-      <HBox prefWidth="${(defaultTab.width)/18}" minWidth="${(defaultTab.width)/18}" maxWidth="${(defaultTab.width)/18}"/>
+      <HBox maxWidth="${(defaultTab.width)/18}" minWidth="${(defaultTab.width)/18}" prefWidth="${(defaultTab.width)/18}" />
    </right>
    <!-- Margin en bas adaptatif -->
    <bottom>
@@ -32,18 +32,18 @@
                   <!-- File Container ( Button ) -->
                   <VBox fx:id="fileContainer" alignment="TOP_LEFT" spacing="20">
                      <children>
-                        <Button fx:id="openRepo" mnemonicParsing="false" prefWidth="250" text="Open a repo"/>
-                        <Button fx:id="cloneRepo" mnemonicParsing="false" prefWidth="${openRepo.width}" text="Clone a repo" />
+                        <Button fx:id="openRepo" mnemonicParsing="false" prefWidth="250" styleClass="buttonDefaultTab" stylesheets="@../css/dark.css" text="Open a repo" />
+                        <Button fx:id="cloneRepo" mnemonicParsing="false" prefWidth="${openRepo.width}" styleClass="buttonDefaultTab" stylesheets="@../css/dark.css" text="Clone a repo" />
                      </children>
                   </VBox>
                   <!-- Espace entre les deux composants -->
-                  <HBox prefWidth="${(defaultTab.width)/15}"/>
+                  <HBox prefWidth="${(defaultTab.width)/15}" />
 
                   <!-- Liste des projets -->
                   <VBox fx:id="repoContainer" prefWidth="${(container.width)/1.6}">
                      <children>
-                        <Label text="Recent Repos" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 0 0 0 10" />
-                        <ListView fx:id="listView" prefWidth="${repoContainer.width}" prefHeight="${(defaultTab.height)-(bottom.height)-(top.height)}"/>
+                        <Label style="-fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 0 0 0 10" text="Recent Repos" />
+                        <ListView fx:id="listView" prefHeight="${(defaultTab.height)-(bottom.height)-(top.height)}" prefWidth="${repoContainer.width}" />
                      </children>
                   </VBox>
                </children>

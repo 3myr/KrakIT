@@ -65,7 +65,7 @@ public class ControllerMainMenu extends Controller
      */
     public void cloneRepo(ActionEvent actionEvent)
     {
-        this.krakit.ajouterRepo("krakit"+(int)(Math.random()*10),"C://Users/remyd/Documents/Projets/krakit/zzeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeezzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+        this.krakit.ajouterRepo("krakit"+(int)(Math.random()*10),System.getProperty("user.dir"));
     }
 
     //

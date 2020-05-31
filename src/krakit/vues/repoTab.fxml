@@ -1,57 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.controllers.ControllerRepoTab">
    <top>
-      <HBox fx:id="menuTop" prefWidth="${borderPane.width}" prefHeight="50" BorderPane.alignment="CENTER" style="-fx-background-color: #191a18">
+      <HBox fx:id="menuTop" prefHeight="50" prefWidth="${borderPane.width}" style="-fx-background-color: #191a18" BorderPane.alignment="CENTER">
          <children>
-            <ComboBox prefHeight="${menuTop.height}" prefWidth="100.0" minWidth="100.0"/>
-            <ComboBox prefHeight="${menuTop.height}" prefWidth="100.0" minWidth="100.0"/>
-            <HBox fx:id="separatorMenuTop" prefWidth="${menuTop.width/2.5}" />
-            <!--
-            <Button mnemonicParsing="false" text="Pull" />
-            <Button mnemonicParsing="false" text="Push" />
-            -->
-            <Label prefHeight="${menuTop.height}" text="Pull " style="-fx-text-fill: white"/>
-            <Label prefHeight="${menuTop.height}" text="Push" style="-fx-text-fill: white"/>
-            <HBox HBox.hgrow="ALWAYS" alignment="TOP_RIGHT">
-               <ChoiceBox prefHeight="${menuTop.height}" prefWidth="200.0" minWidth="200.0"/>
+            <ComboBox minWidth="100.0" prefHeight="${menuTop.height}" prefWidth="100.0" />
+            <ComboBox minWidth="100.0" prefHeight="${menuTop.height}" prefWidth="100.0" />
+            <HBox fx:id="separatorMenuTop" prefWidth="${menuTop.width/3}" />
+            <Button mnemonicParsing="false" prefHeight="${menuTop.height}" prefWidth="50.0" styleClass="buttonRepoTab" stylesheets="@../css/dark.css" text="Pull" />
+            <Button mnemonicParsing="false" prefHeight="${menuTop.height}" prefWidth="50.0" styleClass="buttonRepoTab" stylesheets="@../css/dark.css" text="Push" />
+            <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+               <ChoiceBox minWidth="200.0" prefHeight="${menuTop.height}" prefWidth="200.0" />
             </HBox>
          </children>
       </HBox>
    </top>
-
-   <left>
-      <VBox fx:id="vbLeft" prefHeight="${(borderPane.height)-(menuTop.height)}" BorderPane.alignment="CENTER">
-         <children>
-            <BorderPane fx:id="vbBorderPane">
-               <top>
-                  <HBox fx:id="vbLeftTop" BorderPane.alignment="CENTER" />
-               </top>
-               <left>
-                  <HBox fx:id="vbLeftLeft" BorderPane.alignment="CENTER" />
-               </left>
-               <right>
-                  <HBox fx:id="vbLeftRight" BorderPane.alignment="CENTER" />
-               </right>
-               <bottom>
-                  <HBox fx:id="vbLeftBottom" BorderPane.alignment="CENTER" />
-               </bottom>
-               <center>
-                  <TreeView fx:id="treeView" prefHeight="${vbLeft.height}" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS"/>
-               </center>
-            </BorderPane>
-         </children>
-      </VBox>
-   </left>
-
    <center>
-      <VBox BorderPane.alignment="CENTER" />
-   </center>
+      <SplitPane fx:id="splitPane" dividerPositions="0.09705488621151272, 0.31994645247657294, 0.5180722891566265, 0.8119143239625167" prefHeight="${(borderPane.height)-(menuTop.height)}" prefWidth="${borderPane.width}" BorderPane.alignment="CENTER">
+         <items>
 
-   <right>
-      <VBox BorderPane.alignment="CENTER" />
-   </right>
+            <VBox fx:id="vbLeft" maxWidth="${borderPane.width/6}" minWidth="${borderPane.width/8}" prefHeight="${(borderPane.height)-(menuTop.height)}">
+               <padding>
+                  <Insets bottom="0" left="20" right="20" top="20" />
+               </padding>
+               <children>
+                  <TreeView fx:id="treeView" prefHeight="${(borderPane.height)-(menuTop.height)}" />
+               </children>
+            </VBox>
+
+            <ListView fx:id="listCommit" prefHeight="${(borderPane.height)-(menuTop.height)}" styleClass="noScrollBar-list-view" stylesheets="@../css/dark.css" />
+            <ListView fx:id="listHour" prefHeight="${(borderPane.height)-(menuTop.height)}" styleClass="noScrollBar-list-view" stylesheets="@../css/dark.css" />
+            <ListView fx:id="listComment" prefHeight="${(borderPane.height)-(menuTop.height)}" />
+
+            <VBox fx:id="vbRight" maxWidth="${borderPane.width/3}">
+               <padding>
+                  <Insets bottom="20" left="10" right="10" top="20" />
+               </padding>
+               <children>
+                  <TextArea wrapText="true" />
+               </children>
+            </VBox>
+
+         </items>
+      </SplitPane>
+   </center>
 </BorderPane>
