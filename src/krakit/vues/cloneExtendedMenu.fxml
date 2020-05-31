@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx">
+    <children>
+        <Button text="Clone with url"></Button>
+        <Button text="Github.com"></Button>
+        <Button text="Github Entreprise"></Button>
+        <Button text="Gitlab.com"></Button>
+        <Button text="Gitlab ( Self-managed )"></Button>
+        <Button text="Bitbucket.org"></Button>
+        <Button text="Bitbucket server"></Button>
+        <Button text="Azure DevOps"></Button>
+    </children>
+</VBox>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox stylesheets="@../css/darkRepositoryManager.css" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.controllers.ControllerRepositoryManager">
+    <Label prefWidth="1700" text="Repository Managment" id="repositoryName"></Label>
+    <TableView prefHeight="700"  >
+        <placeholder>
+            <Label text=""/>
+        </placeholder>
+        <columns>
+            <TableColumn prefWidth="310">
+                    <graphic>
+                        <VBox id="leftMenuBox" prefHeight="700">
+                            <children>
+                                <Button text="Open" onAction="#openRepository"></Button>
+                                <Button text="Clone" onAction="#cloneRepository"></Button>
+                                <Button text="Init" onAction="#initRepository"></Button>
+                            </children>
+                        </VBox>
+                    </graphic>
+            </TableColumn>
+            <TableColumn prefWidth="310" id="extendedMenuList">
+                <graphic>
+                    <ListView fx:id="extendedMenuList">
+                    </ListView>
+                </graphic>
+            </TableColumn>
+            <TableColumn prefWidth="310">
+                <graphic>
+                    <VBox fx:id="optionMenuBox" id="optionMenuBox">
+
+                    </VBox>
+                </graphic>
+            </TableColumn>
+        </columns>
+    </TableView>
+</VBox>

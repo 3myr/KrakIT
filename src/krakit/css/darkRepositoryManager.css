@@ -1,0 +1,39 @@
+*{
+    -fx-font-size : 12pt;
+}
+
+
+Button{
+    -fx-min-width : 300px;
+}
+
+Button:hover{
+    -fx-text-fill : rgb(56,70,101);
+}
+
+#leftMenuBox{
+    -fx-background-color : rgb(62,66,78);
+}
+
+#leftMenuBox Button{
+    -fx-background-color : rgb(62,66,78);
+    -fx-text-fill : rgb(203,204,207);
+}
+
+#extendedMenuList .list-cell {
+    -fx-background-color: rgb(51,54,63);
+}
+
+#extendedMenuList Button{
+    -fx-background-color : rgb(51,54,63);
+    -fx-text-fill : rgb(188,189,192);
+}
+
+#optionMenuBox{
+    -fx-background-color : rgb(39,42,49);
+}
+
+#repositoryName{
+    -fx-background-color : rgb(62,66,78);
+    -fx-text-fill : rgb(199,200,204);
+}

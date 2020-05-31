@@ -118,5 +118,11 @@ public class ControllerDefaultTab extends Controller implements Initializable {
         }
     }
 
+
+
+    public void openRepository(){
+        
+    }
+
     //
 }
