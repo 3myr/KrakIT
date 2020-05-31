@@ -20,7 +20,7 @@
       </HBox>
    </top>
    <center>
-      <SplitPane fx:id="splitPane" dividerPositions="0.09705488621151272, 0.31994645247657294, 0.5180722891566265, 0.8119143239625167" prefHeight="${(borderPane.height)-(menuTop.height)}" prefWidth="${borderPane.width}" BorderPane.alignment="CENTER">
+      <SplitPane fx:id="splitPane" dividerPositions="0.09686609686609686, 0.7656695156695157" prefHeight="${(borderPane.height)-(menuTop.height)}" prefWidth="${borderPane.width}" BorderPane.alignment="CENTER">
          <items>
 
             <VBox fx:id="vbLeft" maxWidth="${borderPane.width/6}" minWidth="${borderPane.width/8}" prefHeight="${(borderPane.height)-(menuTop.height)}">
@@ -31,12 +31,16 @@
                   <TreeView fx:id="treeView" prefHeight="${(borderPane.height)-(menuTop.height)}" />
                </children>
             </VBox>
+            <SplitPane dividerPositions="0.2658092175777063, 0.7427652733118971" styleClass="custom-split-pane" stylesheets="@../css/dark.css">
+               <items>
+                  
+                  <ListView fx:id="listCommit" prefHeight="${(borderPane.height)-(menuTop.height)}" styleClass="noScrollBar-list-view" stylesheets="@../css/dark.css" />
+                  <ListView fx:id="listHour" prefHeight="${(borderPane.height)-(menuTop.height)}" styleClass="noScrollBar-list-view" stylesheets="@../css/dark.css" />
+                  <ListView fx:id="listComment" prefHeight="${(borderPane.height)-(menuTop.height)}" prefWidth="0.0" />
+               </items>
+            </SplitPane>
 
-            <ListView fx:id="listCommit" prefHeight="${(borderPane.height)-(menuTop.height)}" styleClass="noScrollBar-list-view" stylesheets="@../css/dark.css" />
-            <ListView fx:id="listHour" prefHeight="${(borderPane.height)-(menuTop.height)}" styleClass="noScrollBar-list-view" stylesheets="@../css/dark.css" />
-            <ListView fx:id="listComment" prefHeight="${(borderPane.height)-(menuTop.height)}" />
-
-            <VBox fx:id="vbRight" maxWidth="${borderPane.width/3}">
+            <VBox fx:id="vbRight" maxWidth="${borderPane.width/3}" prefHeight="420.0" prefWidth="904.0">
                <padding>
                   <Insets bottom="20" left="10" right="10" top="20" />
                </padding>
