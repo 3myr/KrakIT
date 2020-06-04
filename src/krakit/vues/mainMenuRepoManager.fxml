@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox fx:id="container" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.controllers.ControllerMainMenuRepoManager">
+   <children>
+      <Button mnemonicParsing="false" prefWidth="${container.width}" prefHeight="100.0" text="Open" onAction="#open" />
+      <Button mnemonicParsing="false" prefWidth="${container.width}" prefHeight="100.0" text="Clone" onAction="#clone"/>
+      <Button mnemonicParsing="false" prefWidth="${container.width}" prefHeight="100.0" text="Init" onAction="#init"/>
+   </children>
+</VBox>

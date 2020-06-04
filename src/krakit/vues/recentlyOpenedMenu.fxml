@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="container" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.controllers.ControllerRecentlyOpenedMenu">
+   <children>
+      <HBox fx:id="title" alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="${container.width}" spacing="5">
+         <children>
+            <Label text="Recently Opened" />
+            <TextField alignment="CENTER_RIGHT" />
+         </children></HBox>
+      <ListView fx:id="listView" prefHeight="${(container.height)-(title.height)}" prefWidth="${container.width}" VBox.vgrow="ALWAYS"/>
+   </children>
+</VBox>

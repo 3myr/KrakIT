@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="repoManager" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.controllers.ControllerRepoManager">
+    <top>
+        <Label fx:id="title" prefWidth="${repoManager.width}" style="-fx-text-fill: white; -fx-font-size: 24px" styleClass="titleRepoManager" stylesheets="@../css/dark.css" text="Repository Managment" BorderPane.alignment="CENTER" />
+    </top>
+   <left>
+      <ListView fx:id="column1" prefHeight="${(repoManager.height)-(title.height)}" prefWidth="${repoManager.width/3}" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <ListView fx:id="column2" prefHeight="${(repoManager.height)-(title.height)}" prefWidth="${repoManager.width/3}" BorderPane.alignment="CENTER" />
+   </center>
+   <right>
+      <ListView fx:id="column3" prefHeight="${(repoManager.height)-(title.height)}" prefWidth="${repoManager.width/3}" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>

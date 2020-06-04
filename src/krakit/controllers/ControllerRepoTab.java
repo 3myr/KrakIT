@@ -3,6 +3,7 @@ package krakit.controllers;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -17,9 +18,7 @@ import krakit.modeles.Krakit;
 import krakit.modeles.Repo;
 import krakit.outils.SimpleFileTreeItem;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -39,7 +38,10 @@ public class ControllerRepoTab extends Controller implements Initializable
     @FXML
     private ListView listComment;
     @FXML
-    private SplitPane splitPane;
+    private TextArea commitMessage;
+    @FXML
+    private Button sendCommit;
+
 
     // Propriétés
     private Repo repo;
@@ -152,96 +154,15 @@ public class ControllerRepoTab extends Controller implements Initializable
                 }
             });
 
-            // Recupere le nombre de commit
-            // VERIFIER SI GIT EST INSTALLE
-            ProcessBuilder builder = new ProcessBuilder();
-
-            // Commandes a executer ( && permet de lancer plusieurs commandes d'affilée )
-            builder.command("cmd.exe", "/c", "git branch&&echo $&&git rev-list --all --count&&echo $&&git rev-list --all --pretty=format:\"%an | %ar | %s\"");
-
-            // Fixe le repertoire a partir duquel lancer la CMD
-            builder.directory(new File("C:\\Users\\remyd\\Documents\\Projets\\Informatique\\Personnel\\KrakIT\\KrakIT"));
-            //builder.directory(new File(repo.getPath()));
-
-            // Execute les commandes
-            Process p = builder.start();
-
-            // Buffer pour lire les prints / erreurs
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-
-            // Récupère les sorties des différentes commandes
-            String s = null;
-            ArrayList<ArrayList<String>> stdout = new ArrayList<ArrayList<String>>();
-            boolean error=false;
-            ArrayList<String> tmp = new ArrayList<String>();
-
-            while ((s = stdInput.readLine()) != null)
-            {
-                // Caractère de séparation de sortie de commandes
-                if(!s.equals("$"))
-                {
-                    tmp.add(s);
-                }
-                else // Cas ou on se trouve dans une nouvelle commande
-                {
-                    stdout.add(tmp);
-                    tmp = new ArrayList<String>();
-                }
-            }
-
-            // Ajoute la dernière ligne si elle ne se trouve pas deja dans la liste
-            if(!stdout.contains(tmp))
-            {
-                stdout.add(tmp);
-            }
-
-            // Inutile pour le moment
-            while ((s = stdError.readLine()) != null) {
-                System.out.println("Error : "+s);
-                error=true;
-            }
-
-            /*
-            // Affiche les sorties des commandes
-            for(ArrayList<String> sortie: stdout)
-            {
-                System.out.println(sortie);
-            }
-             */
-
-            // Traitement des informations récupéré
-
-            // Si il y a une erreur, executer une action ( A FAIRE )
-            if(error)
-            {
-                throw new Exception("pas de git");
-            }
-
-            ArrayList<String> commits = new ArrayList<String>(Integer.parseInt(stdout.get(1).get(0)));
-            int cmp=0;
-            for(String info : stdout.get(2))
-            {
-                info.replace("^[^,]*,","");
-                if(cmp%2!=0)
-                {
-                    commits.add(info);
-                }
-                cmp++;
-            }
-
-            /*
-            // Affichage des commits
-            for(String info : commits)
-            {
-                System.out.println(info);
-            }
-             */
+            // Recupere tout les commits
+            ArrayList<String> commits = this.krakit.getCommits();
 
             // Ajouter des HBox dans la ListView du milieu
-            for(int i=0;i<Integer.parseInt(stdout.get(1).get(0));i++)
+            for(int i=0;i<commits.size();i++)
             {
                 // Recupère les informations pour chaque liste
+                String id = commits.get(i);
+                i++;
                 String author = commits.get(i).substring(0,commits.get(i).indexOf('|'));
                 String hour = commits.get(i).substring(commits.get(i).indexOf('|')+1,commits.get(i).lastIndexOf('|'));
                 String comment = commits.get(i).substring(commits.get(i).lastIndexOf('|')+1,commits.get(i).length());
@@ -249,10 +170,12 @@ public class ControllerRepoTab extends Controller implements Initializable
                 // Liste contenant les noms des auteurs des commits
                 HBox authorContainer = new HBox();
                 // Position
-                authorContainer.setPadding(new Insets(20, 0, 0, 20));
+                authorContainer.setPadding(new Insets(20, 10, 0, 20));
+                authorContainer.setAlignment(Pos.CENTER_RIGHT);
                 Label name = new Label(author);
                 name.setStyle("-fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold");
                 authorContainer.getChildren().add(name);
+                authorContainer.setId(id);
 
                 authorObservableList.addAll(authorContainer);
 
@@ -260,9 +183,11 @@ public class ControllerRepoTab extends Controller implements Initializable
                 HBox hourContainer = new HBox();
                 // Position
                 hourContainer.setPadding(new Insets(20, 0, 0, 20));
+                hourContainer.setAlignment(Pos.CENTER);
                 Label hourLabel = new Label(hour);
                 hourLabel.setStyle("-fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold");
                 hourContainer.getChildren().add(hourLabel);
+                hourContainer.setId(id);
 
                 hourObservableList.addAll(hourContainer);
 
@@ -270,9 +195,11 @@ public class ControllerRepoTab extends Controller implements Initializable
                 HBox commentContainer = new HBox();
                 // Position
                 commentContainer.setPadding(new Insets(20, 0, 0, 20));
+                commentContainer.setAlignment(Pos.CENTER_LEFT);
                 Label commentLabel = new Label(comment);
                 commentLabel.setStyle("-fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold");
                 commentContainer.getChildren().add(commentLabel);
+                commentContainer.setId(id);
 
                 commentObservableList.addAll(commentContainer);
             }
@@ -303,13 +230,8 @@ public class ControllerRepoTab extends Controller implements Initializable
                             }
                         }
                     }
-
-                    // SplitPane
-                    // Affiche les Split Pane Divider quand l'utilisateur passe la souris dessus
-
                 }
             });
-
 
         }
         catch (Exception e)
@@ -317,6 +239,109 @@ public class ControllerRepoTab extends Controller implements Initializable
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * Realise un commit sur le git
+     * @param actionEvent
+     */
+    public void commit(ActionEvent actionEvent)
+    {
+        // Tests ( supprimer les lignes d'en dessous pour les tests)
+        if(!commitMessage.getText().contains("\n"))
+        {
+            krakit.setCommits("Commit de Test | 15 | "+commitMessage.getText());
+        }
+        else
+        {
+            krakit.setCommits("Commit de Test | 15 | "+commitMessage.getText().substring(0,commitMessage.getText().indexOf('\n')));
+        }
+        krakit.setCommits(Math.random()+"");
+        //krakit.setCommits("123456789");
+        // -------------------------------------------------------
+
+        // Recupère les commits
+        try
+        {
+            krakit.getCommits();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+        // Verifie que le commit n'est pas déjà présent dans la liste
+        for(int i=0;i<krakit.commits().size();i++)
+        {
+            boolean contains=false;
+
+            // Récupère le numéro du commit
+            String id = krakit.commits().get(i);
+            i++;
+
+            // Verification commit dans liste
+            for(HBox h : authorObservableList)
+            {
+                if(h.getId().equals(id))
+                {
+                    contains=true;
+                }
+            }
+
+            // Si le commit n'est pas affiché, on l'affiche
+            if(!contains)
+            {
+                // Recupère les informations pour chaque liste
+                String author = krakit.commits().get(i).substring(0,krakit.commits().get(i).indexOf('|'));
+                String hour = krakit.commits().get(i).substring(krakit.commits().get(i).indexOf('|')+1,krakit.commits().get(i).lastIndexOf('|'));
+                String comment = krakit.commits().get(i).substring(krakit.commits().get(i).lastIndexOf('|')+1,krakit.commits().get(i).length());
+
+                // Liste contenant les noms des auteurs des commits
+                HBox authorContainer = new HBox();
+                // Position
+                authorContainer.setPadding(new Insets(20, 10, 0, 20));
+                authorContainer.setAlignment(Pos.CENTER_RIGHT);
+                Label name = new Label(author);
+                name.setStyle("-fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold");
+                authorContainer.getChildren().add(name);
+                authorContainer.setId(id);
+
+                // Ajoute le details du commit au début de la liste
+                authorObservableList.add(0,authorContainer);
+
+                // Liste contenant la date des commits
+                HBox hourContainer = new HBox();
+                // Position
+                hourContainer.setPadding(new Insets(20, 0, 0, 20));
+                hourContainer.setAlignment(Pos.CENTER);
+                Label hourLabel = new Label(hour);
+                hourLabel.setStyle("-fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold");
+                hourContainer.getChildren().add(hourLabel);
+                hourContainer.setId(id);
+
+                // Ajoute le details du commit au début de la liste
+                hourObservableList.add(0,hourContainer);
+
+                // Liste contenant la premières lignes des commentaires des commits
+                HBox commentContainer = new HBox();
+                // Position
+                commentContainer.setPadding(new Insets(20, 0, 0, 20));
+                commentContainer.setAlignment(Pos.CENTER_LEFT);
+                Label commentLabel = new Label(comment);
+                commentLabel.setStyle("-fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold");
+                commentContainer.getChildren().add(commentLabel);
+                commentContainer.setId(id);
+
+                // Ajoute le details du commit au début de la liste
+                commentObservableList.add(0,commentContainer);
+            }
+        }
+
+
+
+        // Met a jour les controllers
+        this.krakit.reagir();
     }
 
     //

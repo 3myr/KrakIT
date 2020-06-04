@@ -13,7 +13,7 @@
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" text="Clone" onAction="#cloneRepo" accelerator="CTRL+Q" />
                   <MenuItem mnemonicParsing="false" text="Init" />
-                  <MenuItem mnemonicParsing="false" text="Open Repo" />
+                  <MenuItem mnemonicParsing="false" text="Open Repo" onAction="#open" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" text="Open Terminal" />
                   <MenuItem mnemonicParsing="false" text="Open in File Manager" />

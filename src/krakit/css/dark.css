@@ -5,7 +5,6 @@
 .menu-item .label{
     -fx-text-fill: black;
 }
-
 .menu-bar {
     -fx-background-color: black;
 }
@@ -22,7 +21,6 @@
 .tab-down-button {
     -fx-padding: 0;
 }
-
 .tab-down-button .arrow {
     -fx-padding: 0;
 }
@@ -40,18 +38,15 @@
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
-
 .list-view .scroll-bar:horizontal .increment-arrow,
 .list-view .scroll-bar:horizontal .decrement-arrow,
 .list-view .scroll-bar:horizontal .increment-button,
 .list-view .scroll-bar:horizontal .decrement-button {
     -fx-padding:0;
 }
-
 .list-cell .button{
     -fx-font-size: 14px;
 }
-
 .noScrollBar-list-view .scroll-bar:vertical .increment-arrow,
 .noScrollBar-list-view .scroll-bar:vertical .decrement-arrow,
 .noScrollBar-list-view .scroll-bar:vertical .increment-button,
@@ -60,6 +55,23 @@
 }
 
 /*      */
+
+/* ListView RepoMenu */
+.RepoMenulist-view,
+.RepoMenulist-cell,
+.RepoMenulist-cell:filled:hover,
+.RepoMenulist-cell:even,
+.RepoMenulist-cell:odd,
+.RepoMenulist-cell:filled:selected:focused,
+.RepoMenulist-cell:filled:selected  {
+}
+.RepoMenulist-view .scroll-bar:horizontal .increment-arrow,
+.RepoMenulist-view .scroll-bar:horizontal .decrement-arrow,
+.RepoMenulist-view .scroll-bar:horizontal .increment-button,
+.RepoMenulist-view .scroll-bar:horizontal .decrement-button {
+}
+
+/*          */
 
 /* Boutton */
 /*
@@ -100,12 +112,10 @@
     -fx-background-color: black;
     -fx-padding: 0 0.15em 0 0.15em;
 }
-
 .custom-split-pane:horizontal > .split-pane-divider {
     -fx-background-color: transparent;
     -fx-padding: 0 0.07em 0 0.07em;
 }
-
 .custom-split-pane:horizontal > .split-pane-divider:hover {
     -fx-background-color: #000035;
     -fx-padding: 0 0.07em 0 0.07em;
@@ -142,6 +152,14 @@
     -fx-background-color:black;
 }
 /*                 */
+
+/* RepoManagerMenu */
+.titleRepoManager .label{
+    -fx-font-size: 24px;
+    -fx-text-fill: white;
+}
+/*                 */
+
 
 /*
 .tab-pane > .tab-header-area > .headers-region > .tab {
