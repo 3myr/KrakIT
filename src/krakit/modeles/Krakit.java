@@ -1,5 +1,7 @@
 package krakit.modeles;
 
+import krakit.exceptions.GitException;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -79,7 +81,7 @@ public class Krakit extends Sujet
     /**
      * Récupère tout les commits ( et ces informations ) du projet
      */
-    public ArrayList<String> getCommits() throws Exception
+    public ArrayList<String> getCommits() throws Exception, GitException
     {
         // Recupere le nombre de commit
         // VERIFIER SI GIT EST INSTALLE
@@ -89,7 +91,7 @@ public class Krakit extends Sujet
         builder.command("cmd.exe", "/c", "git branch&&echo $&&git rev-list --all --count&&echo $&&git rev-list --all --pretty=format:\"%an | %ar | %s\"");
 
         // Fixe le repertoire a partir duquel lancer la CMD
-        builder.directory(new File("C:\\Users\\remyd\\Documents\\Projets\\Informatique\\Personnel\\KrakIT\\KrakIT"));
+        builder.directory(new File(this.getCurrentTab().getPath()));
         //builder.directory(new File(repo.getPath()));
 
         // Execute les commandes
@@ -141,27 +143,31 @@ public class Krakit extends Sujet
 
         // Traitement des informations récupéré
 
+        System.out.println(error);
+
         // Si il y a une erreur, executer une action ( A FAIRE )
         if(error)
         {
-            throw new Exception("pas de git");
+            throw new GitException("pas de git");
         }
-
-        // Si pas d'erreur, répuère les informations des commits dans une liste
-        commits = new ArrayList<String>(Integer.parseInt(stdout.get(1).get(0)));
-        int cmp=0;
-        for(String info : stdout.get(2))
+        else
         {
-            info.replace("^[^,]*,","");
-            if(cmp%2!=0)
+            // Si pas d'erreur, répuère les informations des commits dans une liste
+            commits = new ArrayList<String>(Integer.parseInt(stdout.get(1).get(0)));
+            int cmp=0;
+            for(String info : stdout.get(2))
             {
-                commits.add(info);
+                info.replace("^[^,]*,","");
+                if(cmp%2!=0)
+                {
+                    commits.add(info);
+                }
+                else
+                {
+                    commits.add(info.substring(info.indexOf("commit")+7,info.length()));
+                }
+                cmp++;
             }
-            else
-            {
-                commits.add(info.substring(info.indexOf("commit")+7,info.length()));
-            }
-            cmp++;
         }
 
         /*
@@ -219,9 +225,10 @@ public class Krakit extends Sujet
             this.repos.remove(i);
         }
 
+        this.currentTab(repo);
 
         // Met a jour les controllers
-        this.reagir();
+        //this.reagir();
     }
 
     /**

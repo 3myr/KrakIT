@@ -24,10 +24,17 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
     private Stage stage;
 
     // Composants graphique
+    /*
     @FXML
     private ListView column2;
     @FXML
     private ListView column3;
+     */
+
+    @FXML
+    private VBox column2;
+    @FXML
+    private VBox column3;
 
     //
 
@@ -51,6 +58,24 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
     {
         super(krakit);
 
+        //this.column2 = column2;
+        this.observableListColumn2 = observableListColum2;
+
+        //this.column3 = column3;
+        this.observableListColumn3 = observableListColum3;
+
+        this.stage = stage;
+
+    }
+
+    /**
+     *
+     * @param krakit
+     */
+    public ControllerMainMenuRepoManager(Krakit krakit, Stage stage, VBox column2, ObservableList<Node> observableListColum2, VBox column3, ObservableList<Node> observableListColum3)
+    {
+        super(krakit);
+
         this.column2 = column2;
         this.observableListColumn2 = observableListColum2;
 
@@ -65,7 +90,6 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
     //
 
     // GETTER / SETTER
-
 
 
     //
@@ -92,18 +116,26 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
      */
     public void open(ActionEvent actionEvent)
     {
+        boolean isFirstShow = false;
+        if(column2.getChildren().isEmpty())
+        {
+            isFirstShow=true;
+        }
+
         // Supprime tout les éléments dans la liste
-        observableListColumn2.clear();
+        //observableListColumn2.clear();
+        column2.getChildren().clear();
+        //column3.getChildren().clear();
 
         // Insérer les buttons dans la liste suivante
         try
         {
-            ControllerOpenExtendedMenu cmmr = new ControllerOpenExtendedMenu(krakit,stage,column3,observableListColumn3);
+            ControllerOpenExtendedMenu coem = new ControllerOpenExtendedMenu(krakit,stage,column3,observableListColumn3);
 
             // Charge la vue associé a ce modèle
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("vues/openExtendedMenu.fxml"));
-            loader.setControllerFactory(ic->cmmr);
+            loader.setControllerFactory(ic->coem);
 
             VBox vbox = loader.load();
 
@@ -113,8 +145,16 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
                 b.prefWidthProperty().bind(column2.prefWidthProperty());
                 b.getStylesheets().add(Main.class.getResource("css/dark.css").toExternalForm());
                 b.getStyleClass().add("buttonRepoTab");
-                observableListColumn2.add(b);
+                //observableListColumn2.add(b);
+                column2.getChildren().add(b);
             }
+
+            // Permet d'affiché le menu par défaut
+            if(isFirstShow)
+            {
+                coem.recentlyOpen(actionEvent);
+            }
+
         }
         catch (Exception e)
         {
@@ -129,8 +169,16 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
      */
     public void clone(ActionEvent actionEvent)
     {
+        boolean isFirstShow = false;
+        if(column2.getChildren().isEmpty())
+        {
+            isFirstShow=true;
+        }
+
         // Supprime tout les éléments dans la liste
-        observableListColumn2.clear();
+        //observableListColumn2.clear();
+        column2.getChildren().clear();
+        //column3.getChildren().clear();
 
         // Insérer les buttons dans la liste suivante
         try
@@ -150,8 +198,16 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
                 b.prefWidthProperty().bind(column2.prefWidthProperty());
                 b.getStylesheets().add(Main.class.getResource("css/dark.css").toExternalForm());
                 b.getStyleClass().add("buttonRepoTab");
-                observableListColumn2.add(b);
+                //observableListColumn2.add(b);
+                column2.getChildren().add(b);
             }
+
+            // Permet d'affiché le menu par défaut
+            if(isFirstShow)
+            {
+                ccem.clone(actionEvent);
+            }
+
         }
         catch (Exception e)
         {
@@ -167,7 +223,9 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
     public void init(ActionEvent actionEvent)
     {
         // Supprime tout les éléments dans la liste
-        observableListColumn2.clear();
+        //observableListColumn2.clear();
+        column2.getChildren().clear();
+        //column3.getChildren().clear();
 
         // Insérer les buttons dans la liste suivante
         try
@@ -187,7 +245,8 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
                 b.prefWidthProperty().bind(column2.prefWidthProperty());
                 b.getStylesheets().add(Main.class.getResource("css/dark.css").toExternalForm());
                 b.getStyleClass().add("buttonRepoTab");
-                observableListColumn2.add(b);
+                //observableListColumn2.add(b);
+                column2.getChildren().clear();
             }
         }
         catch (Exception e)

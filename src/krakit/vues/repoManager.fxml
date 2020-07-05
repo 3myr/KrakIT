@@ -8,12 +8,21 @@
         <Label fx:id="title" prefWidth="${repoManager.width}" style="-fx-text-fill: white; -fx-font-size: 24px" styleClass="titleRepoManager" stylesheets="@../css/dark.css" text="Repository Managment" BorderPane.alignment="CENTER" />
     </top>
    <left>
+       <VBox fx:id="column1" prefHeight="${(repoManager.height)-(title.height)}" prefWidth="${repoManager.width/6}" BorderPane.alignment="CENTER"/>
+       <!--
       <ListView fx:id="column1" prefHeight="${(repoManager.height)-(title.height)}" prefWidth="${repoManager.width/3}" BorderPane.alignment="CENTER" />
+       -->
    </left>
    <center>
+       <VBox fx:id="column2" prefHeight="${(repoManager.height)-(title.height)}" prefWidth="${repoManager.width/3}" BorderPane.alignment="CENTER"/>
+       <!--
       <ListView fx:id="column2" prefHeight="${(repoManager.height)-(title.height)}" prefWidth="${repoManager.width/3}" BorderPane.alignment="CENTER" />
+        -->
    </center>
    <right>
+       <VBox fx:id="column3" prefHeight="${(repoManager.height)-(title.height)}" prefWidth="${(repoManager.width)-(column1.width)-(column2.width)}" BorderPane.alignment="CENTER"/>
+       <!--
       <ListView fx:id="column3" prefHeight="${(repoManager.height)-(title.height)}" prefWidth="${repoManager.width/3}" BorderPane.alignment="CENTER" />
+        -->
    </right>
 </BorderPane>

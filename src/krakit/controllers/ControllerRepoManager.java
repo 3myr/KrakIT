@@ -23,15 +23,26 @@ public class ControllerRepoManager extends Controller implements Initializable {
     private ObservableList<Node> observableListColumn2;
     private ObservableList<Node> observableListColumn3;
     private Stage stage;
-
+    private boolean showOpen;
+    private boolean showClone;
+    private boolean showInit;
 
     // Composants graphique
+    /*$
     @FXML
     private ListView column1;
     @FXML
     private ListView column2;
     @FXML
     private ListView column3;
+     */
+
+    @FXML
+    private VBox column1;
+    @FXML
+    private VBox column2;
+    @FXML
+    private VBox column3;
 
 
     //
@@ -51,6 +62,7 @@ public class ControllerRepoManager extends Controller implements Initializable {
         observableListColumn3 = FXCollections.<Node>observableArrayList();
 
         this.stage = stage;
+        this.stage.setResizable(false);
     }
 
 
@@ -58,7 +70,59 @@ public class ControllerRepoManager extends Controller implements Initializable {
 
     // GETTER / SETTER
 
+    /**
+     *
+     * @return
+     */
+    public boolean isShowOpen() {
+        return showOpen;
+    }
 
+    /**
+     *
+     * @return
+     */
+    public boolean isShowClone() {
+        return showClone;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isShowInit() {
+        return showInit;
+    }
+
+    /**
+     *
+     * @param showOpen
+     */
+    public void setShowOpen(boolean showOpen) {
+        this.showOpen = showOpen;
+        this.showClone = false;
+        this.showInit = false;
+    }
+
+    /**
+     *
+     * @param showClone
+     */
+    public void setShowClone(boolean showClone) {
+        this.showOpen = false;
+        this.showClone = showClone;
+        this.showInit = false;
+    }
+
+    /**
+     *
+     * @param showInit
+     */
+    public void setShowInit(boolean showInit) {
+        this.showOpen = false;
+        this.showClone = false;
+        this.showInit = showInit;
+    }
 
     //
 
@@ -82,13 +146,39 @@ public class ControllerRepoManager extends Controller implements Initializable {
 
             VBox vbox = loader.load();
 
+
             for(Object node : vbox.getChildren().toArray())
             {
                 Button b = (Button)node;
                 b.prefWidthProperty().bind(column1.prefWidthProperty());
                 b.getStylesheets().add(Main.class.getResource("css/dark.css").toExternalForm());
                 b.getStyleClass().add("buttonRepoTab");
-                observableListColumn1.add(b);
+                //observableListColumn1.add(b);
+                column1.getChildren().add(b);
+            }
+
+            // Indique quel menu mettre par defaut
+            if(showClone)
+            {
+                // Permet d'affiché le menu par défaut
+                cmmr.clone(null);
+
+            }
+            else
+            {
+                if(showOpen)
+                {
+                    // Permet d'affiché le menu par défaut
+                    cmmr.open(null);
+                }
+                else
+                {
+                    if(showInit)
+                    {
+                        // Permet d'affiché le menu par défaut
+                        cmmr.init(null);
+                    }
+                }
             }
         }
         catch (Exception e)
@@ -96,9 +186,11 @@ public class ControllerRepoManager extends Controller implements Initializable {
             e.printStackTrace();
         }
 
+        /*
         column1.setItems(observableListColumn1);
         column2.setItems(observableListColumn2);
         column3.setItems(observableListColumn3);
+         */
     }
 
     /**
@@ -106,7 +198,34 @@ public class ControllerRepoManager extends Controller implements Initializable {
      */
     public void mettreAJour()
     {
+        column1.getChildren().clear();
 
+        try
+        {
+            ControllerMainMenuRepoManager cmmr = new ControllerMainMenuRepoManager(krakit,stage,column2,observableListColumn2,column3,observableListColumn3);
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("vues/mainMenuRepoManager.fxml"));
+            loader.setControllerFactory(ic->cmmr);
+
+            VBox vbox = loader.load();
+
+
+            for(Object node : vbox.getChildren().toArray())
+            {
+                Button b = (Button)node;
+                b.prefWidthProperty().bind(column1.prefWidthProperty());
+                b.getStylesheets().add(Main.class.getResource("css/dark.css").toExternalForm());
+                b.getStyleClass().add("buttonRepoTab");
+                //observableListColumn1.add(b);
+                column1.getChildren().add(b);
+            }
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     //

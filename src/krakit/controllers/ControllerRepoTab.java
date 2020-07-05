@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import krakit.Main;
+import krakit.exceptions.GitException;
 import krakit.modeles.Krakit;
 import krakit.modeles.Repo;
 import krakit.outils.SimpleFileTreeItem;
@@ -99,8 +100,7 @@ public class ControllerRepoTab extends Controller implements Initializable
         try
         {
             // Initialise
-            treeView.setRoot(new SimpleFileTreeItem(new File(System.getProperty("user.dir")))); // CHANGER LE DOSSIER D'EMPLACEMENT PAR CELUI DU PROJET CHARGER
-            //treeView.setRoot(new SimpleFileTreeItem(new File(repo.getPath())));
+            treeView.setRoot(new SimpleFileTreeItem(new File(repo.getPath())));
 
             // Fixe l'affichage des données représenté dans la TreeView
             treeView.setCellFactory(new Callback<TreeView<File>, TreeCell<File>>()
@@ -234,11 +234,10 @@ public class ControllerRepoTab extends Controller implements Initializable
             });
 
         }
-        catch (Exception e)
+        catch (Exception e) // Afficher un message d'erreur
         {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-
     }
 
     /**

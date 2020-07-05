@@ -10,10 +10,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import krakit.Main;
 import krakit.modeles.Krakit;
 
+import java.io.File;
 import java.util.List;
 
 public class ControllerOpenExtendedMenu extends Controller {
@@ -23,8 +25,13 @@ public class ControllerOpenExtendedMenu extends Controller {
     private Stage stage;
 
     // Composants graphique
+    /*
     @FXML
     private ListView column3;
+     */
+
+    @FXML
+    private VBox column3;
 
     // CONSTRUCTEUR
 
@@ -33,6 +40,21 @@ public class ControllerOpenExtendedMenu extends Controller {
      * @param krakit
      */
     public ControllerOpenExtendedMenu(Krakit krakit, Stage stage, ListView column3, ObservableList<Node> observableListColum3)
+    {
+        super(krakit);
+
+        //this.column3 = column3;
+        this.observableListColumn3 = observableListColum3;
+
+        this.stage = stage;
+
+    }
+
+    /**
+     *
+     * @param krakit
+     */
+    public ControllerOpenExtendedMenu(Krakit krakit, Stage stage, VBox column3, ObservableList<Node> observableListColum3)
     {
         super(krakit);
 
@@ -59,35 +81,40 @@ public class ControllerOpenExtendedMenu extends Controller {
      */
     public void open(ActionEvent actionEvent)
     {
-        // Supprime tout les éléments dans la liste
-        observableListColumn3.clear();
+        // Initialisation d'une fenetre
+        Stage stage = new Stage();
 
-        // Insérer les buttons dans la liste suivante
-        try
+        // Initialisation d'un choix de répertoire
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+
+        // Emplacement du dernier projet utilisé
+        if(this.krakit.getCurrentTab()!=null)
         {
-            ControllerOpenExtendedMenu cmmr = new ControllerOpenExtendedMenu(krakit,stage,column3,observableListColumn3);
+            directoryChooser.setInitialDirectory(new File(this.krakit.getCurrentTab().getPath()));
+        }
 
-            // Charge la vue associé a ce modèle
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("vues/openExtendedMenu.fxml"));
-            loader.setControllerFactory(ic->cmmr);
+        // Affiche la fenetre de choix
+        File selectedDirectory = directoryChooser.showDialog(stage);
 
-            VBox vbox = loader.load();
-
-            for(Object node : vbox.getChildren().toArray())
+        // Ajoute le projet
+        if(selectedDirectory!=null && selectedDirectory.exists())
+        {
+            // Verifie si le dossier contient un dossier .git
+            boolean isGitFile=false;
+            for(File f : selectedDirectory.listFiles())
             {
-                Button b = (Button)node;
-                b.prefWidthProperty().bind(column3.prefWidthProperty());
-                b.getStylesheets().add(Main.class.getResource("css/dark.css").toExternalForm());
-                b.getStyleClass().add("buttonRepoTab");
-                observableListColumn3.add(b);
+                if(f.getName().equals(".git"))
+                {
+                    isGitFile = true;
+                }
+            }
+
+            // Si le dossier contient un .git, ajoute le dossier en tant que projet
+            if(isGitFile)
+            {
+                this.krakit.ajouterRepo(selectedDirectory.getName(),selectedDirectory.getAbsolutePath());
             }
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
     }
 
     /**
@@ -97,7 +124,8 @@ public class ControllerOpenExtendedMenu extends Controller {
     public void recentlyOpen(ActionEvent actionEvent)
     {
         // Supprime tout les éléments dans la liste
-        observableListColumn3.clear();
+        //observableListColumn3.clear();
+        column3.getChildren().clear();
 
         // Insérer les buttons dans la liste suivante
         try
@@ -119,7 +147,8 @@ public class ControllerOpenExtendedMenu extends Controller {
                     HBox h = (HBox)node;
                     h.prefWidthProperty().bind(column3.prefWidthProperty());
                     h.setPrefHeight(25.0);
-                    observableListColumn3.add(h);
+                    //observableListColumn3.add(h);
+                    column3.getChildren().add(h);
                 }
                 else
                 {
@@ -128,7 +157,8 @@ public class ControllerOpenExtendedMenu extends Controller {
                         ListView l = (ListView)node;
                         l.prefWidthProperty().bind(column3.prefWidthProperty());
                         l.prefHeightProperty().bind(column3.heightProperty().subtract(60.0));
-                        observableListColumn3.add(l);
+                        //observableListColumn3.add(l);
+                        column3.getChildren().add(l);
                     }
                 }
             }
@@ -147,7 +177,8 @@ public class ControllerOpenExtendedMenu extends Controller {
     public void favorite(ActionEvent actionEvent)
     {
         // Supprime tout les éléments dans la liste
-        observableListColumn3.clear();
+        //observableListColumn3.clear();
+        column3.getChildren().clear();
 
     }
 
