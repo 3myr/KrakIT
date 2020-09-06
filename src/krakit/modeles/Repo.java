@@ -1,5 +1,8 @@
 package krakit.modeles;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Repo {
 
     // ATTRIBUT

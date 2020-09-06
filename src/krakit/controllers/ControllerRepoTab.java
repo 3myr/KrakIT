@@ -14,19 +14,20 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 import krakit.Main;
-import krakit.exceptions.GitException;
 import krakit.modeles.Krakit;
 import krakit.modeles.Repo;
 import krakit.outils.SimpleFileTreeItem;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControllerRepoTab extends Controller implements Initializable
 {
-
     // ATTRIBUT
 
     // Composants graphiques
@@ -39,9 +40,9 @@ public class ControllerRepoTab extends Controller implements Initializable
     @FXML
     private ListView listComment;
     @FXML
-    private TextArea commitMessage;
+    private ListView gitListView;
     @FXML
-    private Button sendCommit;
+    private TextArea commitMessage;
 
 
     // Propriétés
@@ -49,6 +50,7 @@ public class ControllerRepoTab extends Controller implements Initializable
     private ObservableList<HBox> authorObservableList;
     private ObservableList<HBox> hourObservableList;
     private ObservableList<HBox> commentObservableList;
+    private ObservableList<Label> fileModifyObservableList;
 
 
     //
@@ -67,6 +69,7 @@ public class ControllerRepoTab extends Controller implements Initializable
         authorObservableList = FXCollections.<HBox>observableArrayList();
         hourObservableList = FXCollections.<HBox>observableArrayList();
         commentObservableList = FXCollections.<HBox>observableArrayList();
+        fileModifyObservableList = FXCollections.<Label>observableArrayList();
 
     }
 
@@ -204,10 +207,13 @@ public class ControllerRepoTab extends Controller implements Initializable
                 commentObservableList.addAll(commentContainer);
             }
 
+            // Ajoute les fichiers modifié / ajouter / supprimer
+
             // Ajoute les item dans la ListView
             listCommit.setItems(authorObservableList);
             listHour.setItems(hourObservableList);
             listComment.setItems(commentObservableList);
+            gitListView.setItems(fileModifyObservableList);
 
             // Bind les property des ScrollBar
             Platform.runLater(new Runnable()
@@ -236,7 +242,7 @@ public class ControllerRepoTab extends Controller implements Initializable
         }
         catch (Exception e) // Afficher un message d'erreur
         {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -246,7 +252,8 @@ public class ControllerRepoTab extends Controller implements Initializable
      */
     public void commit(ActionEvent actionEvent)
     {
-        // Tests ( supprimer les lignes d'en dessous pour les tests)
+        // Tests ( supprimer les lignes d'en dessous pour les tests et ne faire apparaitre qu'un seul commit avant que le projet en cours soit push)
+        /*
         if(!commitMessage.getText().contains("\n"))
         {
             krakit.setCommits("Commit de Test | 15 | "+commitMessage.getText());
@@ -255,9 +262,24 @@ public class ControllerRepoTab extends Controller implements Initializable
         {
             krakit.setCommits("Commit de Test | 15 | "+commitMessage.getText().substring(0,commitMessage.getText().indexOf('\n')));
         }
-        krakit.setCommits(Math.random()+"");
-        //krakit.setCommits("123456789");
+        // Permet d'avoir le numéro pour un commit
+        //krakit.setCommits(Math.random()+"");
+        krakit.setCommits("123456789");
+        krakit.setCommits("Commit de Test | 15 | "+commitMessage.getText());
+         */
+
         // -------------------------------------------------------
+
+        // Commits
+        try
+        {
+            Path path = Paths.get(repo.getPath());
+            krakit.gitCommit(path,commitMessage.getText());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         // Recupère les commits
         try
@@ -338,9 +360,39 @@ public class ControllerRepoTab extends Controller implements Initializable
         }
 
 
-
         // Met a jour les controllers
         this.krakit.reagir();
+    }
+
+    public void push(ActionEvent actionEvent) throws IOException, InterruptedException {
+        Path path = Paths.get(repo.getPath());
+        this.krakit.gitPush(path);
+    }
+
+    /**
+     * Permet de savoir quels fichiers sont modifié / supprimé / ajouté dans le projet
+     * @param actionEvent
+     */
+    public void refresh(ActionEvent actionEvent)
+    {
+        ArrayList<String> modifiedFile = this.krakit.getModifyFile();
+
+        // Nettoye les éléments de la liste
+        fileModifyObservableList.clear();
+
+        // Ajoute les fichiers dans la liste
+        for(String file : modifiedFile)
+        {
+            Label l = new Label(file);
+            fileModifyObservableList.add(l);
+        }
+
+        // Test
+        for(String s : modifiedFile)
+        {
+            System.out.println(s);
+        }
+        // ----
     }
 
     //

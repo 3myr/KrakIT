@@ -8,13 +8,13 @@
     <children>
         <HBox fx:id="title" alignment="CENTER_LEFT" prefWidth="${container.width}" spacing="5">
             <children>
-                <Label text="Clone URL" />
+                <Label text="Clone URL" style="-fx-text-fill: white" />
             </children>
         </HBox>
 
         <HBox alignment="CENTER_LEFT" spacing="5">
             <children>
-                <Label text="Where to clone to" />
+                <Label text="Where to clone to" style="-fx-text-fill: white" />
                 <TextField fx:id="path" />
                 <Button onAction="#browse" text="Browse" />
             </children>
@@ -25,7 +25,7 @@
 
         <HBox alignment="CENTER_LEFT" spacing="5">
             <children>
-                <Label text="URL" />
+                <Label text="URL" style="-fx-text-fill: white" />
                 <TextField fx:id="url" />
             </children>
          <VBox.margin>
@@ -33,30 +33,10 @@
          </VBox.margin>
         </HBox>
 
-        <HBox alignment="CENTER_LEFT" spacing="5">
-            <children>
-                <Label text="Login" />
-                <TextField fx:id="login"/>
-            </children>
-            <VBox.margin>
-                <Insets />
-            </VBox.margin>
-        </HBox>
-
-        <HBox alignment="CENTER_LEFT" spacing="5">
-            <children>
-                <Label text="Password" />
-                <PasswordField fx:id="password"/>
-            </children>
-            <VBox.margin>
-                <Insets />
-            </VBox.margin>
-        </HBox>
-
         <HBox fx:id="containerFullPath" alignment="CENTER_LEFT" layoutX="20.0" layoutY="52.0" spacing="5" visible="false">
             <children>
-                <Label text="Full Path" />
-                <Label fx:id="fullPath" text="" />
+                <Label text="Full Path" style="-fx-text-fill: white" />
+                <Label fx:id="fullPath" text="" style="-fx-text-fill: white" />
                 <TextField fx:id="namePath" />
             </children>
         </HBox>

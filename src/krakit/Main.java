@@ -12,6 +12,9 @@ import krakit.controllers.ControllerSignature;
 import krakit.controllers.ControllerTabMenu;
 import krakit.modeles.Krakit;
 
+import java.nio.file.Files;
+import java.util.Objects;
+
 public class Main extends Application {
 
     @Override

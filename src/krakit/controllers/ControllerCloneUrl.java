@@ -17,7 +17,11 @@ import krakit.modeles.Krakit;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ControllerCloneUrl extends Controller implements Initializable{
@@ -39,10 +43,6 @@ public class ControllerCloneUrl extends Controller implements Initializable{
     private HBox containerFullPath;
     @FXML
     private Button cloneRepo;
-    @FXML
-    private PasswordField password;
-    @FXML
-    private TextField login;
 
 
     // CONSTRUCTEUR
@@ -69,7 +69,7 @@ public class ControllerCloneUrl extends Controller implements Initializable{
     // PROCEDURES
 
     /**
-     *
+     * Permet de choisir un emplacement
      * @param actionEvent
      */
     public void browse(ActionEvent actionEvent)
@@ -173,106 +173,23 @@ public class ControllerCloneUrl extends Controller implements Initializable{
     }
 
     /**
-     *
+     * Permet de clone un projet
      * @param actionEvent
      */
     public void clone(ActionEvent actionEvent)
     {
+        Path path = Paths.get(fullPath.getText()+namePath.getText());
         try
         {
-            // Faire des verifications + git clone
-            // Recupere le nombre de commit
-            // VERIFIER SI GIT EST INSTALLE
-            ProcessBuilder builder = new ProcessBuilder();
-
-            if(!password.getText().isEmpty() && !login.getText().isEmpty())
-            {
-                // Commandes a executer ( && permet de lancer plusieurs commandes d'affilée )
-                //builder.command("cmd.exe", "/c", "git clone "+this.url.getText()+" "+this.namePath.getText());
-                //builder.command("D:\\Logiciel\\Git\\git-bash.exe", "git clone "+ "http://" + login.getText()+":"+password.getText() +this.url.getText().substring(0,this.url.getText().indexOf("@"))+" "+this.namePath.getText());
-            }
-            else
-            {
-                // Commandes a executer ( && permet de lancer plusieurs commandes d'affilée )
-                if(this.url.getText().contains("https"))
-                {
-                    //builder.command("cmd.exe", "/c", "git config --global --unset http.proxy&&git config --global --unset https.proxy&&git clone "+ "http://" + login.getText()+":"+password.getText() +this.url.getText().substring(0,this.url.getText().indexOf("@"))+" "+this.namePath.getText());
-                    //builder.command("D:\\Logiciel\\Git\\git-bash.exe", "git clone "+ "http://" + login.getText()+":"+password.getText() +this.url.getText().substring(0,this.url.getText().indexOf("@"))+" "+this.namePath.getText());
-                }
-                else
-                {
-                    //builder.command("cmd.exe", "/c", "git config --global --unset http.proxy&&git config --global --unset https.proxy&&git clone "+ "https://" + login.getText()+":"+password.getText() +this.url.getText().substring(0,this.url.getText().indexOf("@"))+" "+this.namePath.getText());
-                    //builder.command("D:\\Logiciel\\Git\\git-bash.exe", "git clone "+ "https://" + login.getText()+":"+password.getText() +this.url.getText().substring(0,this.url.getText().indexOf("@"))+" "+this.namePath.getText());
-                }
-            }
-
-            builder.command("D:\\Logiciel\\Git\\git-bash.exe", "git clone https://demazier1u@redmine.fst.univ-lorraine.fr/redmine-atelis/twisk/demazieres/twisk24.git "+this.namePath.getText(), "&&ls");
-            //System.out.println("git clone https://demazier1u@redmine.fst.univ-lorraine.fr/redmine-atelis/twisk/demazieres/twisk24.git "+this.namePath.getText());
-            //builder.command("D:\\Logiciel\\Git\\git-bash.exe", "ls");
-
-            // TEST -----------------------
-            //System.out.println("https://" + login.getText()+":"+password.getText() +this.url.getText().substring(this.url.getText().indexOf("@"),this.url.getText().length())+" "+this.namePath.getText());
-            // ----------------------------
-
-            // Fixe le repertoire a partir duquel lancer la CMD
-            builder.directory(new File(fullPath.getText()));
-
-            // Execute les commandes
-            Process p = builder.start();
-
-            // Buffer pour lire les prints / erreurs
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-
-            // Récupère les sorties des différentes commandes
-            String s = null;
-            ArrayList<ArrayList<String>> stdout = new ArrayList<ArrayList<String>>();
-            boolean error=false;
-            ArrayList<String> tmp = new ArrayList<String>();
-
-            while ((s = stdInput.readLine()) != null)
-            {
-                System.out.println("OK : "+s);
-                // Caractère de séparation de sortie de commandes
-                if(!s.equals("$"))
-                {
-                    tmp.add(s);
-                }
-                else // Cas ou on se trouve dans une nouvelle commande
-                {
-                    stdout.add(tmp);
-                    tmp = new ArrayList<String>();
-                }
-            }
-
-            // Ajoute la dernière ligne si elle ne se trouve pas deja dans la liste
-            if(!stdout.contains(tmp))
-            {
-                stdout.add(tmp);
-            }
-
-            // Inutile pour le moment
-            while ((s = stdError.readLine()) != null) {
-                System.out.println("Error : "+s);
-                error=true;
-            }
-
-            // Ferme les buffers
-            stdError.close();
-            stdInput.close();
+            krakit.gitClone(path,url.getText());
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
 
-        /*
-        System.out.println(login.getText());
-        //System.out.println(password.getText());
-        System.out.println(fullPath.getText()+""+namePath.getText());
-        System.out.println("Done !");
-         */
     }
+
 
     //
 }

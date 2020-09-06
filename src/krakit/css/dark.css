@@ -53,7 +53,6 @@
 .noScrollBar-list-view .scroll-bar:vertical .decrement-button {
     -fx-padding:0;
 }
-
 /*      */
 
 /* ListView RepoMenu */
@@ -113,7 +112,7 @@
     -fx-padding: 0 0.15em 0 0.15em;
 }
 .custom-split-pane:horizontal > .split-pane-divider {
-    -fx-background-color: transparent;
+    -fx-background-color: rgba(0, 0, 53, 0.25);
     -fx-padding: 0 0.07em 0 0.07em;
 }
 .custom-split-pane:horizontal > .split-pane-divider:hover {

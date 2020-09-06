@@ -32,8 +32,8 @@
                   <!-- File Container ( Button ) -->
                   <VBox fx:id="fileContainer" alignment="TOP_LEFT" spacing="20">
                      <children>
-                        <Button fx:id="openRepo" mnemonicParsing="false" prefWidth="250" styleClass="buttonDefaultTab" stylesheets="@../css/dark.css" text="Open a repo" />
-                        <Button fx:id="cloneRepo" mnemonicParsing="false" prefWidth="${openRepo.width}" styleClass="buttonDefaultTab" stylesheets="@../css/dark.css" text="Clone a repo" />
+                        <Button fx:id="openRepo" mnemonicParsing="false" prefWidth="250" styleClass="buttonDefaultTab" stylesheets="@../css/dark.css" text="Open a repo" onAction="#open"/>
+                        <Button fx:id="cloneRepo" mnemonicParsing="false" prefWidth="${openRepo.width}" styleClass="buttonDefaultTab" stylesheets="@../css/dark.css" text="Clone a repo" onAction="#clone" />
                      </children>
                   </VBox>
                   <!-- Espace entre les deux composants -->

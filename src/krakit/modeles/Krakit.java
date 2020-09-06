@@ -3,7 +3,10 @@ package krakit.modeles;
 import krakit.exceptions.GitException;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Krakit extends Sujet
 {
@@ -18,6 +21,9 @@ public class Krakit extends Sujet
 
     // CONSTRUCTEUR
 
+    /**
+     * Constructeur
+     */
     public Krakit()
     {
         super();
@@ -92,7 +98,6 @@ public class Krakit extends Sujet
 
         // Fixe le repertoire a partir duquel lancer la CMD
         builder.directory(new File(this.getCurrentTab().getPath()));
-        //builder.directory(new File(repo.getPath()));
 
         // Execute les commandes
         Process p = builder.start();
@@ -133,17 +138,7 @@ public class Krakit extends Sujet
             error=true;
         }
 
-            /*
-            // Affiche les sorties des commandes
-            for(ArrayList<String> sortie: stdout)
-            {
-                System.out.println(sortie);
-            }
-             */
-
         // Traitement des informations récupéré
-
-        System.out.println(error);
 
         // Si il y a une erreur, executer une action ( A FAIRE )
         if(error)
@@ -152,42 +147,32 @@ public class Krakit extends Sujet
         }
         else
         {
-            // Si pas d'erreur, répuère les informations des commits dans une liste
-            commits = new ArrayList<String>(Integer.parseInt(stdout.get(1).get(0)));
-            int cmp=0;
-            for(String info : stdout.get(2))
+            if(Integer.parseInt(stdout.get(1).get(0))>0)
             {
-                info.replace("^[^,]*,","");
-                if(cmp%2!=0)
+                // Si pas d'erreur, répuère les informations des commits dans une liste
+                commits = new ArrayList<String>(Integer.parseInt(stdout.get(1).get(0)));
+                int cmp=0;
+                for(String info : stdout.get(2))
                 {
-                    commits.add(info);
+                    info.replace("^[^,]*,","");
+                    if(cmp%2!=0)
+                    {
+                        commits.add(info);
+                    }
+                    else
+                    {
+                        commits.add(info.substring(info.indexOf("commit")+7,info.length()));
+                    }
+                    cmp++;
                 }
-                else
-                {
-                    commits.add(info.substring(info.indexOf("commit")+7,info.length()));
-                }
-                cmp++;
+            }
+            else
+            {
+                commits = new ArrayList<String>(Integer.parseInt(stdout.get(1).get(0)));
             }
         }
 
-        /*
-        // Affichage des commits
-        for(String info : commits)
-        {
-            System.out.println(info);
-        }
-         */
-
         return commits;
-    }
-
-    /**
-     * Ajoute un commit a la liste des commits ( A SUPPRIMER, POUR LES TESTS )
-     * @param s
-     */
-    public void setCommits(String s)
-    {
-        commits.add(0,s);
     }
 
     //
@@ -225,6 +210,7 @@ public class Krakit extends Sujet
             this.repos.remove(i);
         }
 
+        // Fixe le nouveau projet en tant que projet en cours
         this.currentTab(repo);
 
         // Met a jour les controllers
@@ -244,14 +230,124 @@ public class Krakit extends Sujet
     }
 
     /**
-     * Commit un projet
-     * @param s
+     * Fonction appellant la commande clone de git
+     * @param directory emplacement où cloner le projet
+     * @param originUrl url contenant le projet
+     * @throws IOException
+     * @throws InterruptedException
      */
-    public void sendCommit(String s)
+    public static void gitClone(Path directory, String originUrl) throws IOException, InterruptedException
     {
+        runCommand(directory.getParent(), "git", "clone", originUrl, directory.getFileName().toString());
 
+        if(!directory.toFile().exists())
+        {
+            throw new RuntimeException("Le projet n'a pas pu être importé, ressayer ( mot de passe incorrect ? )");
+        }
     }
 
+    /**
+     * Fonction appellant la commande commit de git
+     * @param directory
+     * @param message
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void gitCommit(Path directory, String message) throws IOException, InterruptedException
+    {
+        gitAdd(directory);
+
+        // Permet de mettre la première ligne du message de commit en avant
+        message = message.replace("\n","\" -m \"");
+        runCommand(directory, "git", "commit", "-m", message); // Impossible de mettre de " dans les commentaires
+    }
+
+    /**
+     * Fonction appellant la commande push de git
+     * @param directory
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public static void gitPush(Path directory) throws IOException, InterruptedException
+    {
+        runCommand(directory, "git", "push");
+    }
+
+    /**
+     * Fonction appellant la commande add de git
+     * @param directory
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public static void gitAdd(Path directory) throws IOException, InterruptedException {
+        runCommand(directory, "git", "add", ".");
+    }
+
+    /**
+     * Permet de lancer une liste de commande
+     * @param directory
+     * @param command
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public static void runCommand(Path directory, String... command) throws IOException, InterruptedException
+    {
+        Objects.requireNonNull(directory, "directory");
+
+        // Verifie si le dossier choisit existe
+        if (!Files.exists(directory)) {
+            throw new RuntimeException("le repertoire : '" + directory + "' n'existe pas");
+        }
+
+        ProcessBuilder pb = new ProcessBuilder().command(command).directory(directory.toFile());
+        Process p = pb.start();
+        int exit = p.waitFor();
+    }
+
+    /**
+     * Verifie que des modifications ont été effectué sur le projet
+     * @return
+     */
+    public ArrayList<String> getModifyFile()
+    {
+        // Liste contenant les noms des fichiers modifiés
+        ArrayList<String> modiFile = new ArrayList<String>(); // Taille a changer ?
+
+        ProcessBuilder builder = new ProcessBuilder();
+
+        // Commandes a executer
+        builder.command("cmd.exe", "/c", "git ls-files --other --modified --exclude-standard");
+
+        // Fixe le repertoire a partir duquel lancer la CMD
+        builder.directory(new File(this.getCurrentTab().getPath()));
+
+        try
+        {
+            // Lance la commande
+            Process p = builder.start();
+
+            // Buffer pour lire les prints / erreurs
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+
+            // Récupère les sorties des différentes commandes
+            String s = null;
+            ArrayList<ArrayList<String>> stdout = new ArrayList<ArrayList<String>>();
+
+            // Récupère les lignes sur la sortie standard
+            while ((s = stdInput.readLine()) != null)
+            {
+                modiFile.add(s);
+            }
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return modiFile;
+    }
 
     //
 }

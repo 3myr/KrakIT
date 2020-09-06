@@ -113,6 +113,9 @@ public class ControllerOpenExtendedMenu extends Controller {
             if(isGitFile)
             {
                 this.krakit.ajouterRepo(selectedDirectory.getName(),selectedDirectory.getAbsolutePath());
+
+                // Ferme la fenetre quand un projet existe
+                this.stage.close();
             }
         }
     }

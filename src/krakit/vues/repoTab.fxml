@@ -12,7 +12,7 @@
             <ComboBox minWidth="100.0" prefHeight="${menuTop.height}" prefWidth="100.0" />
             <HBox fx:id="separatorMenuTop" prefWidth="${menuTop.width/3}" />
             <Button mnemonicParsing="false" prefHeight="${menuTop.height}" prefWidth="50.0" styleClass="buttonRepoTab" stylesheets="@../css/dark.css" text="Pull" />
-            <Button mnemonicParsing="false" prefHeight="${menuTop.height}" prefWidth="50.0" styleClass="buttonRepoTab" stylesheets="@../css/dark.css" text="Push" />
+            <Button mnemonicParsing="false" onAction="#push" prefHeight="${menuTop.height}" prefWidth="50.0" styleClass="buttonRepoTab" stylesheets="@../css/dark.css" text="Push" />
             <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
                <ChoiceBox minWidth="200.0" prefHeight="${menuTop.height}" prefWidth="200.0" />
             </HBox>
@@ -33,20 +33,25 @@
             </VBox>
             <SplitPane dividerPositions="0.2658092175777063, 0.7427652733118971" styleClass="custom-split-pane" stylesheets="@../css/dark.css">
                <items>
-                  
+
                   <ListView fx:id="listCommit" prefHeight="${(borderPane.height)-(menuTop.height)}" styleClass="noScrollBar-list-view" stylesheets="@../css/dark.css" />
                   <ListView fx:id="listHour" prefHeight="${(borderPane.height)-(menuTop.height)}" styleClass="noScrollBar-list-view" stylesheets="@../css/dark.css" />
                   <ListView fx:id="listComment" prefHeight="${(borderPane.height)-(menuTop.height)}" prefWidth="0.0" />
                </items>
             </SplitPane>
 
-            <VBox fx:id="vbRight" maxWidth="${borderPane.width/3}" prefHeight="${(borderPane.height)-(menuTop.height)}" alignment="CENTER" spacing="25">
+            <VBox fx:id="vbRight" alignment="CENTER" maxWidth="${borderPane.width/3}" prefHeight="${(borderPane.height)-(menuTop.height)}" spacing="25">
                <padding>
                   <Insets bottom="20" left="10" right="10" top="20" />
                </padding>
                <children>
-                  <TextArea fx:id="commitMessage" wrapText="true" prefHeight="${(borderPane.height)-(menuTop.height)}" />
-                  <Button fx:id="sendCommit" text="Commit" prefWidth="${vbRight.width/3}" prefHeight="${vbRight.height/6}" onAction="#commit"/>
+                  <TextArea fx:id="commitMessage" prefHeight="${(vbRight.height)/1.5}" wrapText="true" />
+                  <Button mnemonicParsing="false" text="Refresh" onAction="#refresh" />
+                  <ListView fx:id="gitListView" prefHeight="${(vbRight.height/3)}" prefWidth="${vbRight.width/3}" />
+                  <!--
+                  <TreeView fx:id="modifyTreeView" prefHeight="${(vbRight.height/3)}" prefWidth="${vbRight.width/3}" />
+                  -->
+                  <Button maxHeight="50.0" onAction="#commit" prefHeight="${vbRight.height/6}" prefWidth="${vbRight.width/3}" text="Commit" />
                </children>
             </VBox>
 

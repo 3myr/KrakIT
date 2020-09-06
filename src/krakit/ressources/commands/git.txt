@@ -7,6 +7,7 @@ git rev-list --all --pretty=format:"%an | %ar | %s" => Recupere tout les commits
 Git Branch command :
 
 git branch | sed 's/[^a-zA-Z]*//g' => Affiche le nom de toute les branches
+git ls-files --other --modified --exclude-standard => Affiche le nom des fichiers modifié / ajouté / supprimé
 
 
 Windows :
