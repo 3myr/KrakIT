@@ -9,18 +9,18 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="New Tab" onAction="#ajouterRepo" accelerator="CTRL+N" />
+              <MenuItem accelerator="CTRL+N" mnemonicParsing="false" onAction="#ajouterRepo" text="New Tab" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Clone" onAction="#cloneRepo" accelerator="CTRL+Q" />
-                  <MenuItem mnemonicParsing="false" text="Init" />
-                  <MenuItem mnemonicParsing="false" text="Open Repo" onAction="#open" />
+                  <MenuItem accelerator="CTRL+Q" mnemonicParsing="false" onAction="#cloneRepo" text="Clone" />
+                  <MenuItem mnemonicParsing="false" text="Init" onAction="#init" />
+                  <MenuItem mnemonicParsing="false" onAction="#open" text="Open Repo" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Open Terminal" />
-                  <MenuItem mnemonicParsing="false" text="Open in File Manager" />
-                  <MenuItem mnemonicParsing="false" text="Exit" />
+                  <MenuItem mnemonicParsing="false" text="Open Terminal" onAction="#openCMD" />
+                  <MenuItem mnemonicParsing="false" text="Open in File Manager" visible="false" />
+                  <MenuItem mnemonicParsing="false" text="Exit" onAction="#exit" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Edit" visible="false">
             <items>
               <MenuItem mnemonicParsing="false" text="Undo" />
                   <MenuItem mnemonicParsing="false" text="Redo" />
@@ -31,12 +31,12 @@
                   <MenuItem mnemonicParsing="false" text="Select All" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="View">
+            <Menu mnemonicParsing="false" text="View" visible="false">
                <items>
                   <MenuItem mnemonicParsing="false" text="[Construction]" />
                </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" text="Help" visible="false">
             <items>
               <MenuItem mnemonicParsing="false" text="[Construction]" />
             </items>

@@ -9,27 +9,22 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import krakit.Main;
 import krakit.modeles.Krakit;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerMainMenuRepoManager extends Controller implements Initializable {
 
     // ATTRIBUT
-    private ObservableList<Node> observableListColumn2;
-    private ObservableList<Node> observableListColumn3;
     private Stage stage;
 
     // Composants graphique
-    /*
-    @FXML
-    private ListView column2;
-    @FXML
-    private ListView column3;
-     */
 
     @FXML
     private VBox column2;
@@ -44,45 +39,13 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
      *
      * @param krakit
      */
-    public ControllerMainMenuRepoManager(Krakit krakit)
+    public ControllerMainMenuRepoManager(Krakit krakit, Stage stage, VBox column2, VBox column3)
     {
         super(krakit);
-
-    }
-
-    /**
-     *
-     * @param krakit
-     */
-    public ControllerMainMenuRepoManager(Krakit krakit, Stage stage, ListView column2, ObservableList<Node> observableListColum2, ListView column3, ObservableList<Node> observableListColum3)
-    {
-        super(krakit);
-
-        //this.column2 = column2;
-        this.observableListColumn2 = observableListColum2;
-
-        //this.column3 = column3;
-        this.observableListColumn3 = observableListColum3;
 
         this.stage = stage;
-
-    }
-
-    /**
-     *
-     * @param krakit
-     */
-    public ControllerMainMenuRepoManager(Krakit krakit, Stage stage, VBox column2, ObservableList<Node> observableListColum2, VBox column3, ObservableList<Node> observableListColum3)
-    {
-        super(krakit);
-
         this.column2 = column2;
-        this.observableListColumn2 = observableListColum2;
-
         this.column3 = column3;
-        this.observableListColumn3 = observableListColum3;
-
-        this.stage = stage;
 
     }
 
@@ -123,14 +86,12 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
         }
 
         // Supprime tout les éléments dans la liste
-        //observableListColumn2.clear();
         column2.getChildren().clear();
-        //column3.getChildren().clear();
 
         // Insérer les buttons dans la liste suivante
         try
         {
-            ControllerOpenExtendedMenu coem = new ControllerOpenExtendedMenu(krakit,stage,column3,observableListColumn3);
+            ControllerOpenExtendedMenu coem = new ControllerOpenExtendedMenu(krakit,stage,column3);
 
             // Charge la vue associé a ce modèle
             FXMLLoader loader = new FXMLLoader();
@@ -145,7 +106,6 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
                 b.prefWidthProperty().bind(column2.prefWidthProperty());
                 b.getStylesheets().add(Main.class.getResource("css/dark.css").toExternalForm());
                 b.getStyleClass().add("buttonRepoTab");
-                //observableListColumn2.add(b);
                 column2.getChildren().add(b);
             }
 
@@ -176,14 +136,12 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
         }
 
         // Supprime tout les éléments dans la liste
-        //observableListColumn2.clear();
         column2.getChildren().clear();
-        //column3.getChildren().clear();
 
         // Insérer les buttons dans la liste suivante
         try
         {
-            ControllerCloneExtendedMenu ccem = new ControllerCloneExtendedMenu(krakit,column3,observableListColumn3);
+            ControllerCloneExtendedMenu ccem = new ControllerCloneExtendedMenu(krakit,column3,stage);
 
             // Charge la vue associé a ce modèle
             FXMLLoader loader = new FXMLLoader();
@@ -198,7 +156,6 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
                 b.prefWidthProperty().bind(column2.prefWidthProperty());
                 b.getStylesheets().add(Main.class.getResource("css/dark.css").toExternalForm());
                 b.getStyleClass().add("buttonRepoTab");
-                //observableListColumn2.add(b);
                 column2.getChildren().add(b);
             }
 
@@ -220,40 +177,29 @@ public class ControllerMainMenuRepoManager extends Controller implements Initial
      *
      * @param actionEvent
      */
-    public void init(ActionEvent actionEvent)
-    {
-        // Supprime tout les éléments dans la liste
-        //observableListColumn2.clear();
-        column2.getChildren().clear();
-        //column3.getChildren().clear();
+    public void init(ActionEvent actionEvent) throws IOException, InterruptedException {
+        // Initialisation d'une fenetre
+        Stage stage = new Stage();
 
-        // Insérer les buttons dans la liste suivante
-        try
+        // Initialisation d'un choix de répertoire
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+
+        // Emplacement du dernier projet utilisé
+        if(this.krakit.getCurrentTab()!=null)
         {
-            ControllerInitExtendedMenu ciem = new ControllerInitExtendedMenu(krakit,column3,observableListColumn3);
-
-            // Charge la vue associé a ce modèle
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("vues/initExtendedMenu.fxml"));
-            loader.setControllerFactory(ic->ciem);
-
-            VBox vbox = loader.load();
-
-            for(Object node : vbox.getChildren().toArray())
-            {
-                Button b = (Button)node;
-                b.prefWidthProperty().bind(column2.prefWidthProperty());
-                b.getStylesheets().add(Main.class.getResource("css/dark.css").toExternalForm());
-                b.getStyleClass().add("buttonRepoTab");
-                //observableListColumn2.add(b);
-                column2.getChildren().clear();
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+            directoryChooser.setInitialDirectory(new File(this.krakit.getCurrentTab().getPath()));
         }
 
+        // Affiche la fenetre de choix
+        File selectedDirectory = directoryChooser.showDialog(stage);
+
+
+        // Ajoute le projet
+        if(selectedDirectory!=null)
+        {
+            this.krakit.gitInit(selectedDirectory.toPath());
+            this.krakit.ajouterRepo(selectedDirectory.getName(),selectedDirectory.getAbsolutePath());
+        }
     }
 
     //

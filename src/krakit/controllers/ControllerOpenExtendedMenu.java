@@ -21,45 +21,26 @@ import java.util.List;
 public class ControllerOpenExtendedMenu extends Controller {
 
     // ATTRIBUT
-    private ObservableList<Node> observableListColumn3;
     private Stage stage;
 
     // Composants graphique
-    /*
-    @FXML
-    private ListView column3;
-     */
+
 
     @FXML
     private VBox column3;
 
     // CONSTRUCTEUR
 
-    /**
-     *
-     * @param krakit
-     */
-    public ControllerOpenExtendedMenu(Krakit krakit, Stage stage, ListView column3, ObservableList<Node> observableListColum3)
-    {
-        super(krakit);
-
-        //this.column3 = column3;
-        this.observableListColumn3 = observableListColum3;
-
-        this.stage = stage;
-
-    }
 
     /**
      *
      * @param krakit
      */
-    public ControllerOpenExtendedMenu(Krakit krakit, Stage stage, VBox column3, ObservableList<Node> observableListColum3)
+    public ControllerOpenExtendedMenu(Krakit krakit, Stage stage, VBox column3)
     {
         super(krakit);
 
         this.column3 = column3;
-        this.observableListColumn3 = observableListColum3;
 
         this.stage = stage;
 
@@ -127,7 +108,6 @@ public class ControllerOpenExtendedMenu extends Controller {
     public void recentlyOpen(ActionEvent actionEvent)
     {
         // Supprime tout les éléments dans la liste
-        //observableListColumn3.clear();
         column3.getChildren().clear();
 
         // Insérer les buttons dans la liste suivante
@@ -160,7 +140,6 @@ public class ControllerOpenExtendedMenu extends Controller {
                         ListView l = (ListView)node;
                         l.prefWidthProperty().bind(column3.prefWidthProperty());
                         l.prefHeightProperty().bind(column3.heightProperty().subtract(60.0));
-                        //observableListColumn3.add(l);
                         column3.getChildren().add(l);
                     }
                 }
@@ -180,7 +159,6 @@ public class ControllerOpenExtendedMenu extends Controller {
     public void favorite(ActionEvent actionEvent)
     {
         // Supprime tout les éléments dans la liste
-        //observableListColumn3.clear();
         column3.getChildren().clear();
 
     }

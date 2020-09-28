@@ -16,14 +16,9 @@ import krakit.modeles.Krakit;
 public class ControllerCloneExtendedMenu extends Controller {
 
     // ATTRIBUT
-    private ObservableList<Node> observableListColumn3;
     private Stage stage;
 
     // Composants graphique
-    /*
-    @FXML
-    private ListView column3;
-     */
     @FXML
     private VBox column3;
 
@@ -33,26 +28,12 @@ public class ControllerCloneExtendedMenu extends Controller {
      *
      * @param krakit
      */
-    public ControllerCloneExtendedMenu(Krakit krakit, Stage stage , ListView column3, ObservableList<Node> observableListColum3)
-    {
-        super(krakit);
-
-        //this.column3 = column3;
-        this.observableListColumn3 = observableListColum3;
-        this.stage = stage;
-
-    }
-
-    /**
-     *
-     * @param krakit
-     */
-    public ControllerCloneExtendedMenu(Krakit krakit, VBox column3, ObservableList<Node> observableListColum3)
+    public ControllerCloneExtendedMenu(Krakit krakit, VBox column3, Stage stage)
     {
         super(krakit);
 
         this.column3 = column3;
-        this.observableListColumn3 = observableListColum3;
+        this.stage = stage;
 
     }
 

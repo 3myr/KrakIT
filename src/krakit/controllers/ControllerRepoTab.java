@@ -252,24 +252,6 @@ public class ControllerRepoTab extends Controller implements Initializable
      */
     public void commit(ActionEvent actionEvent)
     {
-        // Tests ( supprimer les lignes d'en dessous pour les tests et ne faire apparaitre qu'un seul commit avant que le projet en cours soit push)
-        /*
-        if(!commitMessage.getText().contains("\n"))
-        {
-            krakit.setCommits("Commit de Test | 15 | "+commitMessage.getText());
-        }
-        else
-        {
-            krakit.setCommits("Commit de Test | 15 | "+commitMessage.getText().substring(0,commitMessage.getText().indexOf('\n')));
-        }
-        // Permet d'avoir le numéro pour un commit
-        //krakit.setCommits(Math.random()+"");
-        krakit.setCommits("123456789");
-        krakit.setCommits("Commit de Test | 15 | "+commitMessage.getText());
-         */
-
-        // -------------------------------------------------------
-
         // Commits
         try
         {
@@ -386,13 +368,6 @@ public class ControllerRepoTab extends Controller implements Initializable
             Label l = new Label(file);
             fileModifyObservableList.add(l);
         }
-
-        // Test
-        for(String s : modifiedFile)
-        {
-            System.out.println(s);
-        }
-        // ----
     }
 
     //

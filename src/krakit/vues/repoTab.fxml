@@ -11,7 +11,9 @@
             <ComboBox minWidth="100.0" prefHeight="${menuTop.height}" prefWidth="100.0" />
             <ComboBox minWidth="100.0" prefHeight="${menuTop.height}" prefWidth="100.0" />
             <HBox fx:id="separatorMenuTop" prefWidth="${menuTop.width/3}" />
+            <!--
             <Button mnemonicParsing="false" prefHeight="${menuTop.height}" prefWidth="50.0" styleClass="buttonRepoTab" stylesheets="@../css/dark.css" text="Pull" />
+            -->
             <Button mnemonicParsing="false" onAction="#push" prefHeight="${menuTop.height}" prefWidth="50.0" styleClass="buttonRepoTab" stylesheets="@../css/dark.css" text="Push" />
             <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
                <ChoiceBox minWidth="200.0" prefHeight="${menuTop.height}" prefWidth="200.0" />

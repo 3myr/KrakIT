@@ -3,10 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane fx:id="signature" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="krakit.controllers.ControllerSignature">
    <children>
-       <Label maxHeight="${signature.height}" minHeight="${signature.height}" prefHeight="${signature.height}" text="FST Nancy" AnchorPane.leftAnchor="0.0"/>
-       <Button alignment="CENTER_RIGHT" maxHeight="${signature.height}" minHeight="${signature.height}" mnemonicParsing="false" prefHeight="${signature.height}" AnchorPane.rightAnchor="0.0"/>
+       <Label maxHeight="${signature.height}" minHeight="${signature.height}" prefHeight="${signature.height}" text="FST Nancy" AnchorPane.leftAnchor="0.0" />
+       <Button alignment="CENTER_RIGHT" maxHeight="${signature.height}" minHeight="${signature.height}" mnemonicParsing="false" prefHeight="${signature.height}" visible="false" AnchorPane.rightAnchor="0.0" />
    </children>
 </AnchorPane>

@@ -28,15 +28,6 @@ public class ControllerRepoManager extends Controller implements Initializable {
     private boolean showInit;
 
     // Composants graphique
-    /*$
-    @FXML
-    private ListView column1;
-    @FXML
-    private ListView column2;
-    @FXML
-    private ListView column3;
-     */
-
     @FXML
     private VBox column1;
     @FXML
@@ -138,7 +129,7 @@ public class ControllerRepoManager extends Controller implements Initializable {
     {
         try
         {
-            ControllerMainMenuRepoManager cmmr = new ControllerMainMenuRepoManager(krakit,stage,column2,observableListColumn2,column3,observableListColumn3);
+            ControllerMainMenuRepoManager cmmr = new ControllerMainMenuRepoManager(krakit,stage,column2,column3);
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("vues/mainMenuRepoManager.fxml"));
@@ -153,7 +144,6 @@ public class ControllerRepoManager extends Controller implements Initializable {
                 b.prefWidthProperty().bind(column1.prefWidthProperty());
                 b.getStylesheets().add(Main.class.getResource("css/dark.css").toExternalForm());
                 b.getStyleClass().add("buttonRepoTab");
-                //observableListColumn1.add(b);
                 column1.getChildren().add(b);
             }
 
@@ -162,7 +152,6 @@ public class ControllerRepoManager extends Controller implements Initializable {
             {
                 // Permet d'affiché le menu par défaut
                 cmmr.clone(null);
-
             }
             else
             {
@@ -185,12 +174,6 @@ public class ControllerRepoManager extends Controller implements Initializable {
         {
             e.printStackTrace();
         }
-
-        /*
-        column1.setItems(observableListColumn1);
-        column2.setItems(observableListColumn2);
-        column3.setItems(observableListColumn3);
-         */
     }
 
     /**
@@ -202,7 +185,7 @@ public class ControllerRepoManager extends Controller implements Initializable {
 
         try
         {
-            ControllerMainMenuRepoManager cmmr = new ControllerMainMenuRepoManager(krakit,stage,column2,observableListColumn2,column3,observableListColumn3);
+            ControllerMainMenuRepoManager cmmr = new ControllerMainMenuRepoManager(krakit,stage,column2,column3);
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("vues/mainMenuRepoManager.fxml"));
@@ -217,7 +200,6 @@ public class ControllerRepoManager extends Controller implements Initializable {
                 b.prefWidthProperty().bind(column1.prefWidthProperty());
                 b.getStylesheets().add(Main.class.getResource("css/dark.css").toExternalForm());
                 b.getStyleClass().add("buttonRepoTab");
-                //observableListColumn1.add(b);
                 column1.getChildren().add(b);
             }
 

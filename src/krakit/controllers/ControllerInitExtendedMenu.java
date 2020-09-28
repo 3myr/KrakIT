@@ -12,13 +12,8 @@ import krakit.modeles.Krakit;
 public class ControllerInitExtendedMenu extends Controller {
 
     // ATTRIBUT
-    private ObservableList<Node> observableListColumn3;
 
     // Composants graphique
-    /*
-    @FXML
-    private ListView column3;
-     */
 
     @FXML
     private VBox column3;
@@ -30,24 +25,11 @@ public class ControllerInitExtendedMenu extends Controller {
      *
      * @param krakit
      */
-    public ControllerInitExtendedMenu(Krakit krakit, ListView column3, ObservableList<Node> observableListColum3)
-    {
-        super(krakit);
-
-        //this.column3 = column3;
-        this.observableListColumn3 = observableListColum3;
-
-    }
-    /**
-     *
-     * @param krakit
-     */
-    public ControllerInitExtendedMenu(Krakit krakit, VBox column3, ObservableList<Node> observableListColum3)
+    public ControllerInitExtendedMenu(Krakit krakit, VBox column3)
     {
         super(krakit);
 
         this.column3 = column3;
-        this.observableListColumn3 = observableListColum3;
 
     }
 

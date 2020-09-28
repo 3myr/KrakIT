@@ -1,17 +1,23 @@
 package krakit.controllers;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import krakit.Main;
 import krakit.ecouteurs.closeTab;
 import krakit.modeles.Krakit;
 import krakit.modeles.Repo;
 
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -115,7 +121,6 @@ public class ControllerTabMenu extends Controller implements Initializable
                     catch (Exception e)
                     {
                         e.printStackTrace();
-                        System.out.println(e);
                     }
                 }
 
@@ -273,14 +278,55 @@ public class ControllerTabMenu extends Controller implements Initializable
                 else
                 {
                     System.out.println("Menu ouvrir un projet");
+                    this.open(null);
                     tabPane.getSelectionModel().select(tab);
                 }
 
             }
-
         });
 
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
+    public void open(ActionEvent actionEvent)
+    {
+        // Initialisation d'une fenetre
+        Stage stage = new Stage();
+
+        // Initialisation d'un choix de répertoire
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+
+        // Emplacement du dernier projet utilisé
+        if(this.krakit.getCurrentTab()!=null)
+        {
+            directoryChooser.setInitialDirectory(new File(this.krakit.getCurrentTab().getPath()));
+        }
+
+        // Affiche la fenetre de choix
+        File selectedDirectory = directoryChooser.showDialog(stage);
+
+        // Ajoute le projet
+        if(selectedDirectory!=null && selectedDirectory.exists())
+        {
+            // Verifie si le dossier contient un dossier .git
+            boolean isGitFile=false;
+            for(File f : selectedDirectory.listFiles())
+            {
+                if(f.getName().equals(".git"))
+                {
+                    isGitFile = true;
+                }
+            }
+
+            // Si le dossier contient un .git, ajoute le dossier en tant que projet
+            if(isGitFile)
+            {
+                this.krakit.ajouterRepo(selectedDirectory.getName(),selectedDirectory.getAbsolutePath());
+            }
+        }
+    }
     //
 }

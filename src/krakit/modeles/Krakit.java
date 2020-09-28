@@ -100,6 +100,7 @@ public class Krakit extends Sujet
         builder.directory(new File(this.getCurrentTab().getPath()));
 
         // Execute les commandes
+
         Process p = builder.start();
 
         // Buffer pour lire les prints / erreurs
@@ -282,6 +283,30 @@ public class Krakit extends Sujet
     public static void gitAdd(Path directory) throws IOException, InterruptedException {
         runCommand(directory, "git", "add", ".");
     }
+
+    /**
+     * Fonction appellant la commande init de git
+     * @param directory
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void gitInit(Path directory) throws IOException, InterruptedException {
+        if(directory!=null)
+        {
+            runCommand(directory,"git", "init", directory.toFile().getAbsolutePath());
+        }
+    }
+
+    /**
+     * Fonction ouvrant un terminal a partir du dossier du projet
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public void openCMD() throws IOException, InterruptedException {
+        Process p = Runtime.getRuntime().exec("cmd /c start cmd.exe");
+        p.waitFor();
+    }
+
 
     /**
      * Permet de lancer une liste de commande

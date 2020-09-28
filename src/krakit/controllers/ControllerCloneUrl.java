@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import krakit.modeles.Krakit;
+import krakit.modeles.Repo;
 
 import java.io.*;
 import java.net.URL;
@@ -27,7 +28,6 @@ import java.util.ResourceBundle;
 public class ControllerCloneUrl extends Controller implements Initializable{
 
     // ATTRIBUT
-    private ObservableList<Node> observableListColumn3;
     private Stage stage;
 
     // Composants graphique
@@ -90,7 +90,7 @@ public class ControllerCloneUrl extends Controller implements Initializable{
         File selectedDirectory = directoryChooser.showDialog(stage);
 
         // Fixe le chemin dans le TextField
-        if(!selectedDirectory.getAbsolutePath().isEmpty())
+        if(selectedDirectory !=null && !selectedDirectory.getAbsolutePath().isEmpty())
         {
             path.setText(selectedDirectory.getAbsolutePath());
         }
@@ -182,12 +182,13 @@ public class ControllerCloneUrl extends Controller implements Initializable{
         try
         {
             krakit.gitClone(path,url.getText());
+            this.krakit.ajouterRepo(namePath.getText(),fullPath.getText()+namePath.getText());
+            this.stage.close();
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-
     }
 
 

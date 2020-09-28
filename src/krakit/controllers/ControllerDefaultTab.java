@@ -141,7 +141,7 @@ public class ControllerDefaultTab extends Controller implements Initializable {
             BorderPane borderPane = loader.load();
             borderPane.setStyle("-fx-background-color: #171717");
 
-            Scene scene = new Scene(borderPane, Screen.getPrimary().getVisualBounds().getWidth()*0.7 ,Screen.getPrimary().getVisualBounds().getHeight()*0.9);
+            Scene scene = new Scene(borderPane, Screen.getPrimary().getVisualBounds().getWidth()*0.5 ,Screen.getPrimary().getVisualBounds().getHeight()*0.5);
             stage.setScene(scene);
             stage.show();
         }
@@ -151,6 +151,10 @@ public class ControllerDefaultTab extends Controller implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param actionEvent
+     */
     public void open(ActionEvent actionEvent)
     {
         // Initialisation d'une fenetre
